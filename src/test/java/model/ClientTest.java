@@ -1,0 +1,95 @@
+package model;
+
+import exceptions.WrongValueException;
+import model.sub.Address;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+public class ClientTest {
+
+    @Test
+    public void clientCreationTest() throws WrongValueException {
+        String name = "John";
+        String surname = "Doe";
+        String id = "12345";
+        String country = "England";
+        String city = "London";
+        String street = "Station Road";
+        int number = 12;
+        Address address = new Address(country, city, street, number);
+
+        Client client = new Client(name,surname,id,address);
+        assertEquals(id,client.getId());
+        assertEquals(name, client.getName());
+        assertEquals(surname, client.getSurname());
+        assertEquals(address, client.getAddress());
+    }
+
+    public void clientSetNameTest() throws WrongValueException {
+        String name = "John";
+        String surname = "Doe";
+        String id = "12345";
+        String country = "England";
+        String city = "London";
+        String street = "Station Road";
+        String error = "Name cannot be blank";
+        int number = 12;
+        Address address = new Address(country, city, street, number);
+
+        Client client = new Client(name,surname,id,address);
+        WrongValueException e = assertThrows(WrongValueException.class,
+                () -> client.setName(null));
+        assertEquals(error, e.getMessage());
+
+        e = assertThrows(WrongValueException.class,
+                () -> client.setName(""));
+        assertEquals(error, e.getMessage());
+
+        e = assertThrows(WrongValueException.class,
+                () -> client.setName("   "));
+        assertEquals(error, e.getMessage());
+
+        try {
+            client.setName("Mike");
+            assertEquals("Mike",client.getName());
+        } catch (WrongValueException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    public void clientSetSurnameTest() throws WrongValueException {
+        String name = "John";
+        String surname = "Doe";
+        String id = "12345";
+        String country = "England";
+        String city = "London";
+        String street = "Station Road";
+        int number = 12;
+        String error = "Surname cannot be blank";
+        Address address = new Address(country, city, street, number);
+
+        Client client = new Client(name,surname,id,address);
+        WrongValueException e = assertThrows(WrongValueException.class,
+                () -> client.setSurname(null));
+        assertEquals(error,e.getMessage());
+
+        e = assertThrows(WrongValueException.class,
+                () -> client.setSurname(""));
+        assertEquals(error,e.getMessage());
+
+        e = assertThrows(WrongValueException.class,
+                () -> client.setSurname("   "));
+        assertEquals(error,e.getMessage());
+
+        try {
+            client.setSurname("Smith");
+            assertEquals("Smith",client.getSurname());
+        } catch (WrongValueException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+
+}
