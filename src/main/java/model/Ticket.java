@@ -1,13 +1,36 @@
 package model;
 
 import exceptions.WrongValueException;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
-public abstract class Ticket {
-    private final int id;
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Access(AccessType.FIELD)
+@DiscriminatorColumn(name = "type")
+public abstract class Ticket extends AbstractEntity {
+
+    @Id
+    @GeneratedValue()
+    private int id;
+
+    @NotEmpty
     private double basePrice;
+
+    @NotEmpty
     private int seat;
-    private final Client client;
-    private final Movie movie;
+
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "client_id")
+    @NotNull
+    private Client client;
+
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "movie_id")
+    @NotNull
+    private Movie movie;
+
 
     public Ticket(int id, double basePrice, int seat, Client client, Movie movie) throws WrongValueException {
         this.id = id;
@@ -15,6 +38,10 @@ public abstract class Ticket {
         setSeat(seat);
         this.client = client;
         this.movie = movie;
+    }
+
+    public Ticket() {
+
     }
 
     public int getId() {

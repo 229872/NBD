@@ -38,7 +38,7 @@ public class TicketManager {
     }
 
     public Ticket addStudentTicket(int id, double basePrice, int seat, Client client,
-                                   Movie movie, String studentIDCard, SchoolType schoolType) throws WrongTicketException, WrongValueException {
+                                   Movie movie, long studentIDCard, SchoolType schoolType) throws WrongTicketException, WrongValueException {
         Ticket check = repository.find(ticket -> ticket.getId() == id ||
                 (ticket.getMovie() == movie && ticket.getSeat() == seat));
         if(check == null && seat < movie.getSeatLimit()) {
@@ -52,7 +52,7 @@ public class TicketManager {
     }
 
     public Ticket addSeniorTicket(int id, double basePrice, int seat, Client client,
-                                  Movie movie, String seniorIDCard, int age) throws WrongTicketException, WrongValueException {
+                                  Movie movie, long seniorIDCard, int age) throws WrongTicketException, WrongValueException {
         Ticket check = repository.find(ticket -> ticket.getId() == id ||
                 (ticket.getMovie() == movie && ticket.getSeat() == seat));
         if(check == null && seat < movie.getSeatLimit()) {

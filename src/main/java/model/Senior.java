@@ -1,24 +1,37 @@
 package model;
 
 import exceptions.WrongValueException;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 
+@Entity
+@Access(AccessType.FIELD)
+@DiscriminatorValue("senior")
 public class Senior extends Ticket {
-    private String seniorIDCard;
+
+    @Column(unique = true)
+    private long seniorIDCard;
+
+    @NotEmpty
     private int age;
 
     public Senior(int id, double basePrice, int seat, Client client, Movie movie,
-                  String seniorIDCard, int age) throws WrongValueException {
+                  long seniorIDCard, int age) throws WrongValueException {
         super(id, basePrice, seat, client, movie);
         setSeniorIDCard(seniorIDCard);
         setAge(age);
     }
 
-    public String getSeniorIDCard() {
+    public Senior() {
+
+    }
+
+    public long getSeniorIDCard() {
         return seniorIDCard;
     }
 
-    public void setSeniorIDCard(String seniorIDCard) throws WrongValueException {
-        if(!seniorIDCard.isBlank()) {
+    public void setSeniorIDCard(long seniorIDCard) throws WrongValueException {
+        if(seniorIDCard != 0) {
             this.seniorIDCard = seniorIDCard;
         } else {
             throw new WrongValueException("Senior ID card cannot be blank");

@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class TicketManagerTest {
     private final String name = "John";
     private final String surname = "Doe";
-    private final String id = "1234";
+    private final long id = 1234;
     private final String country = "England";
     private final String city = "London";
     private final String street = "Sea street";
@@ -84,7 +84,7 @@ public class TicketManagerTest {
     public void addStudentTest() throws WrongTicketException, WrongValueException, TicketNotFoundException {
         TicketManager ticketManager = new TicketManager();
         Ticket student = ticketManager.addStudentTicket(1, basePrice, seat, client, movie,
-                "1", SchoolType.HIGH_SCHOOL);
+                1, SchoolType.HIGH_SCHOOL);
 
         assertEquals(student, ticketManager.findTicket(t -> t.getId() == 1));
         assertEquals(1, student.getId());
@@ -98,19 +98,19 @@ public class TicketManagerTest {
     public void addStudentExceptionsTest() throws WrongTicketException, WrongValueException, TicketNotFoundException {
         TicketManager ticketManager = new TicketManager();
         ticketManager.addStudentTicket(1, basePrice, seat, client, movie,
-                "1", SchoolType.HIGH_SCHOOL);
+                1, SchoolType.HIGH_SCHOOL);
 
         assertThrows(WrongTicketException.class,
                 () -> ticketManager.addStudentTicket(1,basePrice,seat2,client,movie,
-                        "1",SchoolType.HIGH_SCHOOL));
+                        1,SchoolType.HIGH_SCHOOL));
         assertThrows(WrongTicketException.class,
                 () -> ticketManager.addStudentTicket(2, basePrice, seat, client, movie,
-                        "2",SchoolType.STUDIES));
+                        2,SchoolType.STUDIES));
         Ticket student1 = ticketManager.addStudentTicket(2,basePrice,seat,client,movie2,
-                "2",SchoolType.STUDIES);
+                2,SchoolType.STUDIES);
         assertEquals(student1, ticketManager.findTicket(t -> t.getId() == 2));
         Ticket student2 = ticketManager.addStudentTicket(3,basePrice,seat2, client, movie,
-                "3",SchoolType.PRIMARY_SCHOOL);
+                3,SchoolType.PRIMARY_SCHOOL);
         assertEquals(student2, ticketManager.findTicket(t -> t.getId() == 3));
     }
 
@@ -118,9 +118,9 @@ public class TicketManagerTest {
     public void addStudentTicketToClient() throws WrongTicketException, WrongValueException {
         TicketManager ticketManager = new TicketManager();
         ticketManager.addStudentTicket(1,basePrice,seat,client,movie,
-                "1",SchoolType.PRIMARY_SCHOOL);
+                1,SchoolType.PRIMARY_SCHOOL);
         ticketManager.addStudentTicket(2, basePrice, seat, client, movie2,
-                "2",SchoolType.HIGH_SCHOOL);
+                2,SchoolType.HIGH_SCHOOL);
         int size = client.getListOfTickets().size();
         assertEquals(2,size);
     }
@@ -129,7 +129,7 @@ public class TicketManagerTest {
     public void addSeniorTest() throws WrongTicketException, WrongValueException, TicketNotFoundException {
         TicketManager ticketManager = new TicketManager();
         Ticket senior = ticketManager.addSeniorTicket(1, basePrice, seat, client, movie,
-                "1", 70);
+                1, 70);
 
         assertEquals(senior, ticketManager.findTicket(t -> t.getId() == 1));
         assertEquals(1, senior.getId());
@@ -143,19 +143,19 @@ public class TicketManagerTest {
     public void addSeniorExceptionsTest() throws WrongTicketException, WrongValueException, TicketNotFoundException {
         TicketManager ticketManager = new TicketManager();
         ticketManager.addSeniorTicket(1, basePrice, seat, client, movie,
-                "1", 70);
+                1, 70);
 
         assertThrows(WrongTicketException.class,
                 () -> ticketManager.addSeniorTicket(1,basePrice,seat2,client,movie,
-                        "1",70));
+                        1,70));
         assertThrows(WrongTicketException.class,
                 () -> ticketManager.addSeniorTicket(2, basePrice, seat, client, movie,
-                        "2",70));
+                        2,70));
         Ticket senior1 = ticketManager.addSeniorTicket(2,basePrice,seat,client,movie2,
-                "2",70);
+                2,70);
         assertEquals(senior1, ticketManager.findTicket(t -> t.getId() == 2));
         Ticket senior2 = ticketManager.addSeniorTicket(3,basePrice,seat2, client, movie,
-                "3",70);
+                3,70);
         assertEquals(senior2, ticketManager.findTicket(t -> t.getId() == 3));
     }
 
@@ -163,9 +163,9 @@ public class TicketManagerTest {
     public void addSeniorTicketToClient() throws WrongTicketException, WrongValueException {
         TicketManager ticketManager = new TicketManager();
         ticketManager.addSeniorTicket(1,basePrice,seat,client,movie,
-                "1",80);
+                1,80);
         ticketManager.addSeniorTicket(2, basePrice, seat, client, movie2,
-                "2",80);
+                2,80);
         int size = client.getListOfTickets().size();
         assertEquals(2,size);
     }

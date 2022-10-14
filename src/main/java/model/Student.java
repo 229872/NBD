@@ -1,17 +1,29 @@
 package model;
 
 import exceptions.WrongValueException;
+import jakarta.persistence.*;
 import model.sub.SchoolType;
 
+@Entity
+@Access(AccessType.FIELD)
+@DiscriminatorValue("student")
 public class Student extends Ticket {
-    private String studentIDCard;
+
+    @Column(unique = true)
+    private long studentIDCard;
+
+    @Enumerated(EnumType.STRING)
     private SchoolType schoolType;
 
     public Student(int id, double basePrice, int seat, Client client, Movie movie,
-                   String studentIDCard, SchoolType schoolType) throws WrongValueException {
+                   long studentIDCard, SchoolType schoolType) throws WrongValueException {
         super(id, basePrice, seat, client, movie);
         setStudentIDCard(studentIDCard);
         setSchoolType(schoolType);
+    }
+
+    public Student() {
+
     }
 
     @Override
@@ -22,12 +34,12 @@ public class Student extends Ticket {
         };
     }
 
-    public String getStudentIDCard() {
+    public long getStudentIDCard() {
         return studentIDCard;
     }
 
-    public void setStudentIDCard(String studentIDCard) throws WrongValueException {
-        if(!studentIDCard.isBlank()) {
+    public void setStudentIDCard(long studentIDCard) throws WrongValueException {
+        if(studentIDCard != 0) {
             this.studentIDCard = studentIDCard;
         } else {
             throw new WrongValueException("Student ID Card cannot be blank");

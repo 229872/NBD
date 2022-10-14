@@ -11,14 +11,14 @@ import static org.junit.Assert.assertNull;
 public class RepositoryTest {
     @Test
     public void repositoryTest() throws WrongValueException {
-        String id = "1234";
+        long id = 1234;
         Address address = new Address("England", "London", "Sea street", 125);
         Client client = new Client("John", "Doe", id, address);
         Repository<Client> clientRepository = new Repository<>();
 
         clientRepository.add(client);
-        assertEquals(client,clientRepository.find(c -> c.getId().equals(id)));
+        assertEquals(client,clientRepository.find(c -> c.getId() == id));
         clientRepository.remove(client);
-        assertNull(clientRepository.find(c -> c.getId().equals(id)));
+        assertNull(clientRepository.find(c -> c.getId() == id));
     }
 }

@@ -1,23 +1,44 @@
 package model;
 
 import exceptions.WrongValueException;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import model.sub.Address;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Client {
-    private String name;
-    private String surname;
-    private final String id;
-    private final Address address;
-    private final List<Ticket> listOfTickets = new ArrayList<>();
+@Entity
+@Access(AccessType.FIELD)
+public class Client extends AbstractEntity {
 
-    public Client(String name, String surname, String id, Address address) throws WrongValueException {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
+
+    @NotEmpty
+    private String name;
+
+    @NotEmpty
+    private String surname;
+
+    @Embedded
+    @NotNull
+    private Address address;
+
+    @OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    private List<Ticket> listOfTickets = new ArrayList<>();
+
+    public Client(String name, String surname, long id, Address address) throws WrongValueException {
         setName(name);
         setSurname(surname);
         this.id = id;
         this.address = address;
+    }
+
+    public Client() {
+
     }
 
     public String getName() {
@@ -28,7 +49,7 @@ public class Client {
         return surname;
     }
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 

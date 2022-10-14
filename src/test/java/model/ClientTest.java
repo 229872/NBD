@@ -13,7 +13,7 @@ public class ClientTest {
     public void clientCreationTest() throws WrongValueException {
         String name = "John";
         String surname = "Doe";
-        String id = "12345";
+        long id = 12345;
         String country = "England";
         String city = "London";
         String street = "Station Road";
@@ -30,7 +30,7 @@ public class ClientTest {
     public void clientSetNameTest() throws WrongValueException {
         String name = "John";
         String surname = "Doe";
-        String id = "12345";
+        long id = 12345;
         String country = "England";
         String city = "London";
         String street = "Station Road";
@@ -62,7 +62,7 @@ public class ClientTest {
     public void clientSetSurnameTest() throws WrongValueException {
         String name = "John";
         String surname = "Doe";
-        String id = "12345";
+        long id = 12345;
         String country = "England";
         String city = "London";
         String street = "Station Road";

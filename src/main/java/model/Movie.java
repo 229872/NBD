@@ -1,16 +1,33 @@
 package model;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import model.sub.Genre;
 
-public class Movie {
+@Entity
+@Access(AccessType.FIELD)
+public class Movie extends AbstractEntity {
+
     private static int movieCounter = 0;
 
-    private final int id;
-    private final String title;
-    private final Genre genre;
-    private final int ageRestriction;
-    private final int durationInMinutes;
-    private final int seatLimit;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
+
+    @NotEmpty
+    private String title;
+
+    @Enumerated(EnumType.STRING)
+    private Genre genre;
+
+    @NotEmpty
+    private int ageRestriction;
+
+    @NotEmpty
+    private int durationInMinutes;
+
+    @NotEmpty
+    private int seatLimit;
 
     public Movie(String title, Genre genre, int ageRestriction, int durationInMinutes, int seatLimit) {
         this.id = ++movieCounter;
@@ -19,6 +36,10 @@ public class Movie {
         this.ageRestriction = ageRestriction;
         this.durationInMinutes = durationInMinutes;
         this.seatLimit = seatLimit;
+    }
+
+    public Movie() {
+
     }
 
     public String getTitle() {
