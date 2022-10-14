@@ -11,7 +11,7 @@ public class Normal extends Ticket {
         super(id, basePrice, seat, client, movie);
     }
 
-    public Normal() {
+    protected Normal() {
 
     }
 

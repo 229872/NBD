@@ -24,6 +24,9 @@ public class Client extends AbstractEntity {
     private String surname;
 
     @Embedded
+    @AttributeOverrides({
+            @AttributeOverride( name = "number", column = @Column(name = "number_of_house"))
+    })
     @NotNull
     private Address address;
 
@@ -37,7 +40,7 @@ public class Client extends AbstractEntity {
         this.address = address;
     }
 
-    public Client() {
+    protected Client() {
 
     }
 

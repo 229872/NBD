@@ -22,7 +22,7 @@ public class Senior extends Ticket {
         setAge(age);
     }
 
-    public Senior() {
+    protected Senior() {
 
     }
 

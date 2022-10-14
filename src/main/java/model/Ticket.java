@@ -40,7 +40,7 @@ public abstract class Ticket extends AbstractEntity {
         this.movie = movie;
     }
 
-    public Ticket() {
+    protected Ticket() {
 
     }
 

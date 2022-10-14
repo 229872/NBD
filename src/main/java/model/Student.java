@@ -22,7 +22,7 @@ public class Student extends Ticket {
         setSchoolType(schoolType);
     }
 
-    public Student() {
+    protected Student() {
 
     }
 

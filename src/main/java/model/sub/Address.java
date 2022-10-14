@@ -1,11 +1,19 @@
 package model.sub;
 
 import exceptions.WrongValueException;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 
+@Embeddable
+@Access(AccessType.FIELD)
 public class Address {
+    @NotEmpty
     private String country;
+    @NotEmpty
     private String city;
+    @NotEmpty
     private String street;
+    @NotEmpty
     private int number;
 
     public Address(String country, String city, String street, int number) {
@@ -13,6 +21,10 @@ public class Address {
         this.city = city;
         this.street = street;
         this.number = number;
+    }
+
+    protected Address() {
+
     }
 
     public String getCountry() {

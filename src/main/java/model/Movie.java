@@ -8,8 +8,6 @@ import model.sub.Genre;
 @Access(AccessType.FIELD)
 public class Movie extends AbstractEntity {
 
-    private static int movieCounter = 0;
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
@@ -30,7 +28,6 @@ public class Movie extends AbstractEntity {
     private int seatLimit;
 
     public Movie(String title, Genre genre, int ageRestriction, int durationInMinutes, int seatLimit) {
-        this.id = ++movieCounter;
         this.title = title;
         this.genre = genre;
         this.ageRestriction = ageRestriction;
@@ -38,7 +35,7 @@ public class Movie extends AbstractEntity {
         this.seatLimit = seatLimit;
     }
 
-    public Movie() {
+    protected Movie() {
 
     }
 

@@ -13,7 +13,7 @@ import java.util.UUID;
 @MappedSuperclass
 public abstract class AbstractEntity implements Serializable {
 
-    @Column(name = "entity_id")
+    @Column(name = "uuid")
     @Type(type = "uuid-char")
     private UUID uuid = UUID.randomUUID();
 
