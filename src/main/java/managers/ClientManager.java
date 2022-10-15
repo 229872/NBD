@@ -23,17 +23,12 @@ public class ClientManager {
         }
     }
 
-    public Client addClient(String name, String surname, long id, String country,
-                            String city, String street, int number) throws ClientAlreadyExistsException, WrongValueException {
-        Client clientToCheck = repository.find(id);
-        if(clientToCheck == null) {
+    public Client addClient(String name, String surname, String country,
+                            String city, String street, int number) throws WrongValueException {
             Address address = new Address(country, city, street, number);
-            Client client = new Client(name,surname,id,address);
+            Client client = new Client(name,surname,address);
             repository.add(client);
             return client;
-        } else {
-            throw new ClientAlreadyExistsException();
-        }
     }
 
     public boolean removeClient(long id) throws ClientNotFoundException {
@@ -52,13 +47,5 @@ public class ClientManager {
         } else {
             throw new ClientNotFoundException();
         }
-    }
-
-    public void load() {
-
-    }
-
-    public void save() {
-
     }
 }

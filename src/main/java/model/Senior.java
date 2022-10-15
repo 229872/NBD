@@ -15,9 +15,9 @@ public class Senior extends Ticket {
     @NotEmpty
     private int age;
 
-    public Senior(int id, double basePrice, int seat, Client client, Movie movie,
+    public Senior(double basePrice, int seat, Client client, Movie movie,
                   long seniorIDCard, int age) throws WrongValueException {
-        super(id, basePrice, seat, client, movie);
+        super(basePrice, seat, client, movie);
         setSeniorIDCard(seniorIDCard);
         setAge(age);
     }

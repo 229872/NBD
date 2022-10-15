@@ -15,9 +15,9 @@ public class Student extends Ticket {
     @Enumerated(EnumType.STRING)
     private SchoolType schoolType;
 
-    public Student(int id, double basePrice, int seat, Client client, Movie movie,
+    public Student(double basePrice, int seat, Client client, Movie movie,
                    long studentIDCard, SchoolType schoolType) throws WrongValueException {
-        super(id, basePrice, seat, client, movie);
+        super(basePrice, seat, client, movie);
         setStudentIDCard(studentIDCard);
         setSchoolType(schoolType);
     }

@@ -23,43 +23,28 @@ public class TicketManager {
         }
     }
 
-    public Ticket addNormalTicket(int id, double basePrice, int seat, Client client,
+    public Ticket addNormalTicket(double basePrice, int seat, Client client,
                                   Movie movie) throws WrongTicketException, WrongValueException {
-        Ticket check = repository.find(id);
-        if(check == null && seat < movie.getSeatLimit()) {
-            Ticket ticket = new Normal(id,basePrice,seat,client,movie);
+            Ticket ticket = new Normal(basePrice,seat,client,movie);
             ticket.getClient().addTicket(ticket);
             repository.add(ticket);
             return ticket;
-        } else {
-            throw new WrongTicketException();
-        }
     }
 
-    public Ticket addStudentTicket(int id, double basePrice, int seat, Client client,
+    public Ticket addStudentTicket(double basePrice, int seat, Client client,
                                    Movie movie, long studentIDCard, SchoolType schoolType) throws WrongTicketException, WrongValueException {
-        Ticket check = repository.find(id);
-        if(check == null && seat < movie.getSeatLimit()) {
-            Ticket ticket = new Student(id, basePrice, seat, client, movie, studentIDCard, schoolType);
+            Ticket ticket = new Student(basePrice, seat, client, movie, studentIDCard, schoolType);
             ticket.getClient().addTicket(ticket);
             repository.add(ticket);
             return ticket;
-        } else {
-            throw new WrongTicketException();
-        }
     }
 
-    public Ticket addSeniorTicket(int id, double basePrice, int seat, Client client,
+    public Ticket addSeniorTicket(double basePrice, int seat, Client client,
                                   Movie movie, long seniorIDCard, int age) throws WrongTicketException, WrongValueException {
-        Ticket check = repository.find(id);
-        if(check == null && seat < movie.getSeatLimit()) {
-            Ticket ticket = new Senior(id,basePrice,seat,client,movie,seniorIDCard,age);
+            Ticket ticket = new Senior(basePrice,seat,client,movie,seniorIDCard,age);
             ticket.getClient().addTicket(ticket);
             repository.add(ticket);
             return ticket;
-        } else {
-            throw new WrongTicketException();
-        }
     }
 
     public boolean removeTicket(int id) throws TicketNotFoundException {

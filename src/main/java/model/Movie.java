@@ -9,8 +9,8 @@ import model.sub.Genre;
 public class Movie extends AbstractEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
     @NotEmpty
     private String title;
@@ -56,8 +56,19 @@ public class Movie extends AbstractEntity {
         return seatLimit;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
+    @Override
+    public String toString() {
+        return "Movie{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", genre=" + genre +
+                ", ageRestriction=" + ageRestriction +
+                ", durationInMinutes=" + durationInMinutes +
+                ", seatLimit=" + seatLimit +
+                '}';
+    }
 }

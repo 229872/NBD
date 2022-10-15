@@ -12,13 +12,11 @@ import jakarta.validation.constraints.NotNull;
 public abstract class Ticket extends AbstractEntity {
 
     @Id
-    @GeneratedValue()
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
-    @NotEmpty
     private double basePrice;
 
-    @NotEmpty
     private int seat;
 
     @ManyToOne(cascade = CascadeType.MERGE)
@@ -32,8 +30,7 @@ public abstract class Ticket extends AbstractEntity {
     private Movie movie;
 
 
-    public Ticket(int id, double basePrice, int seat, Client client, Movie movie) throws WrongValueException {
-        this.id = id;
+    public Ticket(double basePrice, int seat, Client client, Movie movie) throws WrongValueException {
         setBasePrice(basePrice);
         setSeat(seat);
         this.client = client;
@@ -44,7 +41,7 @@ public abstract class Ticket extends AbstractEntity {
 
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -82,4 +79,15 @@ public abstract class Ticket extends AbstractEntity {
     }
 
     public abstract double getTicketPrice();
+
+    @Override
+    public String toString() {
+        return "Ticket{" +
+                "id=" + id +
+                ", basePrice=" + basePrice +
+                ", seat=" + seat +
+                ", client=" + client +
+                ", movie=" + movie +
+                '}';
+    }
 }

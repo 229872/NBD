@@ -14,7 +14,7 @@ import java.util.List;
 public class Client extends AbstractEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @NotEmpty
@@ -33,10 +33,9 @@ public class Client extends AbstractEntity {
     @OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<Ticket> listOfTickets = new ArrayList<>();
 
-    public Client(String name, String surname, long id, Address address) throws WrongValueException {
+    public Client(String name, String surname, Address address) throws WrongValueException {
         setName(name);
         setSurname(surname);
-        this.id = id;
         this.address = address;
     }
 
@@ -83,5 +82,15 @@ public class Client extends AbstractEntity {
 
     public List<Ticket> getListOfTickets() {
         return new ArrayList<>(listOfTickets);
+    }
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", address=" + address +
+                '}';
     }
 }
