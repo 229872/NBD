@@ -13,24 +13,22 @@ public class ClientTest {
     public void clientCreationTest() throws WrongValueException {
         String name = "John";
         String surname = "Doe";
-        long id = 12345;
         String country = "England";
         String city = "London";
         String street = "Station Road";
         int number = 12;
         Address address = new Address(country, city, street, number);
 
-        Client client = new Client(name,surname,id,address);
-        assertEquals(id,client.getId());
+        Client client = new Client(name,surname,address);
         assertEquals(name, client.getName());
         assertEquals(surname, client.getSurname());
         assertEquals(address, client.getAddress());
     }
 
+    @Test
     public void clientSetNameTest() throws WrongValueException {
         String name = "John";
         String surname = "Doe";
-        long id = 12345;
         String country = "England";
         String city = "London";
         String street = "Station Road";
@@ -38,7 +36,7 @@ public class ClientTest {
         int number = 12;
         Address address = new Address(country, city, street, number);
 
-        Client client = new Client(name,surname,id,address);
+        Client client = new Client(name,surname,address);
         WrongValueException e = assertThrows(WrongValueException.class,
                 () -> client.setName(null));
         assertEquals(error, e.getMessage());
@@ -59,10 +57,10 @@ public class ClientTest {
         }
     }
 
+    @Test
     public void clientSetSurnameTest() throws WrongValueException {
         String name = "John";
         String surname = "Doe";
-        long id = 12345;
         String country = "England";
         String city = "London";
         String street = "Station Road";
@@ -70,7 +68,7 @@ public class ClientTest {
         String error = "Surname cannot be blank";
         Address address = new Address(country, city, street, number);
 
-        Client client = new Client(name,surname,id,address);
+        Client client = new Client(name,surname,address);
         WrongValueException e = assertThrows(WrongValueException.class,
                 () -> client.setSurname(null));
         assertEquals(error,e.getMessage());

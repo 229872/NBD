@@ -4,6 +4,7 @@ import exceptions.TicketNotFoundException;
 import exceptions.WrongTicketException;
 import exceptions.WrongValueException;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.LockModeType;
 import jakarta.persistence.Query;
 import model.*;
 import model.sub.SchoolType;
@@ -28,7 +29,7 @@ public class TicketManager {
 
     public Ticket addNormalTicket(double basePrice, int seat, Client client,
                                   Movie movie) throws WrongTicketException, WrongValueException {
-        EntityManager em = Repository.getEm();
+        EntityManager em = repository.getEm();
         Query query = em.createQuery("FROM Ticket WHERE seat=:seat AND movie=:movie");
         query.setParameter("seat",seat);
         query.setParameter("movie",movie);
@@ -47,7 +48,7 @@ public class TicketManager {
 
     public Ticket addStudentTicket(double basePrice, int seat, Client client,
                                    Movie movie, long studentIDCard, SchoolType schoolType) throws WrongTicketException, WrongValueException {
-        EntityManager em = Repository.getEm();
+        EntityManager em = repository.getEm();
         Query query = em.createQuery("FROM Ticket WHERE seat=:seat AND movie=:movie");
         query.setParameter("seat",seat);
         query.setParameter("movie",movie);
@@ -66,7 +67,7 @@ public class TicketManager {
 
     public Ticket addSeniorTicket(double basePrice, int seat, Client client,
                                   Movie movie, long seniorIDCard, int age) throws WrongTicketException, WrongValueException {
-        EntityManager em = Repository.getEm();
+        EntityManager em = repository.getEm();
         Query query = em.createQuery("FROM Ticket WHERE seat=:seat AND movie=:movie");
         query.setParameter("seat",seat);
         query.setParameter("movie",movie);

@@ -6,6 +6,7 @@ import model.Client;
 import model.Movie;
 import model.sub.Genre;
 import org.junit.Test;
+import repositories.Repository;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -21,9 +22,11 @@ public class MovieManagerTest {
 
     @Test
     public void addMovieTest() throws MovieNotFoundException {
-        MovieManager movieManager = new MovieManager();
+        Repository<Movie> repository = new Repository<>(Movie.class,"test");
+        MovieManager movieManager = new MovieManager(repository);
+
         Movie movie = movieManager.addMovie(title,genre,ageRestriction,durationInMinutes,seatLimit);
-        assertEquals(movie, movieManager.findMovie(m -> m.getTitle().equals(title)));
+        assertEquals(movie, movieManager.findMovie(1));
         assertEquals(title, movie.getTitle());
         assertEquals(genre, movie.getGenre());
         assertEquals(ageRestriction, movie.getAgeRestriction());
@@ -33,23 +36,14 @@ public class MovieManagerTest {
 
     @Test
     public void removeMovieTest() throws MovieNotFoundException {
-        MovieManager movieManager = new MovieManager();
-        Movie movie = movieManager.addMovie(title, genre, ageRestriction, durationInMinutes, seatLimit);
-        assertEquals(movie, movieManager.findMovie(m -> m.getTitle().equals(title)));
-        assertThrows(MovieNotFoundException.class,
-                () -> movieManager.removeMovie(m -> m.getTitle().equals("Jumanji")));
-        assertTrue(movieManager.removeMovie(m -> m.getTitle().equals(title)));
-    }
+        Repository<Movie> repository = new Repository<>(Movie.class,"test");
+        MovieManager movieManager = new MovieManager(repository);
 
-    @Test
-    public void findMovieTest() throws MovieNotFoundException {
-        MovieManager movieManager = new MovieManager();
         Movie movie = movieManager.addMovie(title, genre, ageRestriction, durationInMinutes, seatLimit);
-        assertEquals(movie, movieManager.findMovie(m -> m.getTitle().equals(title)));
-        assertEquals(movie, movieManager.findMovie(m -> m.getGenre().equals(Genre.SCI_FI)));
-        assertEquals(movie, movieManager.findMovie(m -> m.getSeatLimit() == seatLimit));
-        assertEquals(movie, movieManager.findMovie(m -> m.getAgeRestriction() == ageRestriction));
-        assertEquals(movie, movieManager.findMovie(m -> m.getDurationInMinutes() == durationInMinutes));
+        assertEquals(movie, movieManager.findMovie(1));
+        assertThrows(MovieNotFoundException.class,
+                () -> movieManager.removeMovie(2));
+        assertTrue(movieManager.removeMovie(1));
     }
 
 }

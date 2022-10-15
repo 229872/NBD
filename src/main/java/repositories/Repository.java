@@ -5,17 +5,25 @@ import jakarta.persistence.*;
 import java.util.List;
 
 public class Repository<T> {
-    private static EntityManagerFactory factory =
-            Persistence.createEntityManagerFactory("default");
-    private static EntityManager em = factory.createEntityManager();
+    private EntityManagerFactory factory;
 
-    public static EntityManager getEm() {
+    private EntityManager em;
+
+    public EntityManager getEm() {
         return em;
     }
     private final Class<T> clazz;
 
     public Repository(Class<T> clazz) {
         this.clazz = clazz;
+        this.factory = Persistence.createEntityManagerFactory("mysql");
+        this.em = factory.createEntityManager();
+    }
+
+    public Repository(Class<T> clazz, String persistenceUnitName) {
+        this.clazz = clazz;
+        this.factory = Persistence.createEntityManagerFactory(persistenceUnitName);
+        this.em = factory.createEntityManager();
     }
 
     public T find(long id) {
