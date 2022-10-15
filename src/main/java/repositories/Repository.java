@@ -1,14 +1,17 @@
 package repositories;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.Persistence;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 public class Repository<T> {
     private static EntityManagerFactory factory =
             Persistence.createEntityManagerFactory("default");
     private static EntityManager em = factory.createEntityManager();
+
+    public static EntityManager getEm() {
+        return em;
+    }
     private final Class<T> clazz;
 
     public Repository(Class<T> clazz) {
@@ -19,6 +22,9 @@ public class Repository<T> {
         return em.find(clazz, id);
     }
 
+    public List<T> find(Query query) {
+        return query.getResultList();
+    }
     public void add(T item) {
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();

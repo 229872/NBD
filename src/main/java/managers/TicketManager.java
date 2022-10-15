@@ -3,10 +3,13 @@ package managers;
 import exceptions.TicketNotFoundException;
 import exceptions.WrongTicketException;
 import exceptions.WrongValueException;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import model.*;
 import model.sub.SchoolType;
 import repositories.Repository;
 
+import java.util.List;
 import java.util.function.Predicate;
 
 public class TicketManager {
@@ -25,26 +28,58 @@ public class TicketManager {
 
     public Ticket addNormalTicket(double basePrice, int seat, Client client,
                                   Movie movie) throws WrongTicketException, WrongValueException {
+        EntityManager em = Repository.getEm();
+        Query query = em.createQuery("FROM Ticket WHERE seat=:seat AND movie=:movie");
+        query.setParameter("seat",seat);
+        query.setParameter("movie",movie);
+        List<Ticket> checker = repository.find(query);
+
+        if(checker.isEmpty()) {
             Ticket ticket = new Normal(basePrice,seat,client,movie);
             ticket.getClient().addTicket(ticket);
             repository.add(ticket);
             return ticket;
+        } else {
+            throw new WrongTicketException("Seat is already taken");
+        }
+
     }
 
     public Ticket addStudentTicket(double basePrice, int seat, Client client,
                                    Movie movie, long studentIDCard, SchoolType schoolType) throws WrongTicketException, WrongValueException {
+        EntityManager em = Repository.getEm();
+        Query query = em.createQuery("FROM Ticket WHERE seat=:seat AND movie=:movie");
+        query.setParameter("seat",seat);
+        query.setParameter("movie",movie);
+        List<Ticket> checker = repository.find(query);
+
+        if(checker.isEmpty()) {
             Ticket ticket = new Student(basePrice, seat, client, movie, studentIDCard, schoolType);
             ticket.getClient().addTicket(ticket);
             repository.add(ticket);
             return ticket;
+        } else {
+            throw new WrongTicketException("Seat is already taken");
+        }
+
     }
 
     public Ticket addSeniorTicket(double basePrice, int seat, Client client,
                                   Movie movie, long seniorIDCard, int age) throws WrongTicketException, WrongValueException {
+        EntityManager em = Repository.getEm();
+        Query query = em.createQuery("FROM Ticket WHERE seat=:seat AND movie=:movie");
+        query.setParameter("seat",seat);
+        query.setParameter("movie",movie);
+        List<Ticket> checker = repository.find(query);
+
+        if(checker.isEmpty()) {
             Ticket ticket = new Senior(basePrice,seat,client,movie,seniorIDCard,age);
             ticket.getClient().addTicket(ticket);
             repository.add(ticket);
             return ticket;
+        } else {
+            throw new WrongTicketException("Seat is already taken");
+        }
     }
 
     public boolean removeTicket(int id) throws TicketNotFoundException {
