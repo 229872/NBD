@@ -10,6 +10,6 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - pg:/var/lib/postgresql/data
+      - pg:/var/lib/mysql/
 volumes:
   pg:

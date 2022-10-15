@@ -3,6 +3,7 @@ package model;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import managers.MovieManager;
 import model.sub.Genre;
 
 public class App {
@@ -12,7 +13,8 @@ public class App {
 
     public static void main(String[] args) {
         System.out.println("test");
-        Movie movie = new Movie("test", Genre.HORROR, 150, 200, 300);
+        MovieManager movieManager = new MovieManager();
+        movieManager.addMovie("test", Genre.HORROR, 150, 200, 300);
     }
 
     // docker desktop

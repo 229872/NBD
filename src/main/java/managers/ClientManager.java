@@ -13,7 +13,7 @@ public class ClientManager {
     private Repository<Client> repository;
 
     public ClientManager() {
-        this.repository = new Repository<>();
+        this.repository = new Repository<>(Client.class);
     }
 
     public ClientManager(Repository<Client> repository) {
@@ -25,7 +25,7 @@ public class ClientManager {
 
     public Client addClient(String name, String surname, long id, String country,
                             String city, String street, int number) throws ClientAlreadyExistsException, WrongValueException {
-        Client clientToCheck = repository.find(client -> client.getId() == id);
+        Client clientToCheck = repository.find(id);
         if(clientToCheck == null) {
             Address address = new Address(country, city, street, number);
             Client client = new Client(name,surname,id,address);
@@ -37,7 +37,7 @@ public class ClientManager {
     }
 
     public boolean removeClient(long id) throws ClientNotFoundException {
-        Client clientToRemove = repository.find(client -> client.getId() == id);
+        Client clientToRemove = repository.find(id);
         if(clientToRemove != null) {
             return repository.remove(clientToRemove);
         } else {
@@ -45,8 +45,8 @@ public class ClientManager {
         }
     }
 
-    public Client find(Predicate<Client> predicate) throws ClientNotFoundException {
-        Client client = repository.find(predicate);
+    public Client find(long id) throws ClientNotFoundException {
+        Client client = repository.find(id);
         if(client != null) {
             return client;
         } else {

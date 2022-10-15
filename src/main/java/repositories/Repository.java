@@ -1,30 +1,40 @@
 package repositories;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Predicate;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.Persistence;
 
 public class Repository<T> {
-    private final List<T> repository;
+    private static EntityManagerFactory factory =
+            Persistence.createEntityManagerFactory("default");
+    private static EntityManager em = factory.createEntityManager();
+    private final Class<T> clazz;
 
-    public Repository() {
-        repository = new ArrayList<>();
-    };
+    public Repository(Class<T> clazz) {
+        this.clazz = clazz;
+    }
 
-    public T find(Predicate<T> predicate) {
-        for (T  item : repository) {
-            if(predicate.test(item)) {
-                return item;
-            }
-        }
-        return null;
+    public T find(long id) {
+        return em.find(clazz, id);
     }
 
     public void add(T item) {
-        repository.add(item);
+        EntityTransaction transaction = em.getTransaction();
+        transaction.begin();
+        em.persist(item);
+        transaction.commit();
     }
 
     public boolean remove(T item) {
-        return repository.remove(item);
+        EntityTransaction transaction = em.getTransaction();
+        transaction.begin();
+        em.remove(item);
+        if(transaction.isActive()) {
+            transaction.commit();
+            return true;
+        } else {
+            return false;
+        }
     }
 }

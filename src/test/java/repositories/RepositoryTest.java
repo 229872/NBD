@@ -14,7 +14,7 @@ public class RepositoryTest {
         long id = 1234;
         Address address = new Address("England", "London", "Sea street", 125);
         Client client = new Client("John", "Doe", id, address);
-        Repository<Client> clientRepository = new Repository<>();
+        Repository<Client> clientRepository = new Repository<>(clazz);
 
         clientRepository.add(client);
         assertEquals(client,clientRepository.find(c -> c.getId() == id));

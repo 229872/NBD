@@ -18,13 +18,10 @@ public class Movie extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     private Genre genre;
 
-    @NotEmpty
     private int ageRestriction;
 
-    @NotEmpty
     private int durationInMinutes;
 
-    @NotEmpty
     private int seatLimit;
 
     public Movie(String title, Genre genre, int ageRestriction, int durationInMinutes, int seatLimit) {

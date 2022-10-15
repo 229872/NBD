@@ -11,7 +11,7 @@ public class MovieManager {
     private Repository<Movie> repository;
 
     public MovieManager() {
-        this.repository = new Repository<>();
+        this.repository = new Repository<>(Movie.class);
     }
 
     public MovieManager(Repository<Movie> repository) {
@@ -28,8 +28,8 @@ public class MovieManager {
         return movie;
     }
 
-    public boolean removeMovie(Predicate<Movie> predicate) throws MovieNotFoundException {
-        Movie movieToRemove = repository.find(predicate);
+    public boolean removeMovie(long id) throws MovieNotFoundException {
+        Movie movieToRemove = repository.find(id);
         if(movieToRemove != null) {
             return repository.remove(movieToRemove);
         } else {
@@ -37,8 +37,8 @@ public class MovieManager {
         }
     }
 
-    public Movie findMovie(Predicate<Movie> predicate) throws MovieNotFoundException {
-        Movie found = repository.find(predicate);
+    public Movie findMovie(long id) throws MovieNotFoundException {
+        Movie found = repository.find(id);
         if(found != null) {
             return found;
         } else {

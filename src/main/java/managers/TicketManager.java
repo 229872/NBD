@@ -13,7 +13,7 @@ public class TicketManager {
     private Repository<Ticket> repository;
 
     public TicketManager() {
-        this.repository = new Repository<>();
+        this.repository = new Repository<>(Ticket.class);
     }
 
     public TicketManager(Repository<Ticket> repository) {
@@ -25,8 +25,7 @@ public class TicketManager {
 
     public Ticket addNormalTicket(int id, double basePrice, int seat, Client client,
                                   Movie movie) throws WrongTicketException, WrongValueException {
-        Ticket check = repository.find(ticket -> ticket.getId() == id ||
-                (ticket.getMovie() == movie && ticket.getSeat() == seat));
+        Ticket check = repository.find(id);
         if(check == null && seat < movie.getSeatLimit()) {
             Ticket ticket = new Normal(id,basePrice,seat,client,movie);
             ticket.getClient().addTicket(ticket);
@@ -39,8 +38,7 @@ public class TicketManager {
 
     public Ticket addStudentTicket(int id, double basePrice, int seat, Client client,
                                    Movie movie, long studentIDCard, SchoolType schoolType) throws WrongTicketException, WrongValueException {
-        Ticket check = repository.find(ticket -> ticket.getId() == id ||
-                (ticket.getMovie() == movie && ticket.getSeat() == seat));
+        Ticket check = repository.find(id);
         if(check == null && seat < movie.getSeatLimit()) {
             Ticket ticket = new Student(id, basePrice, seat, client, movie, studentIDCard, schoolType);
             ticket.getClient().addTicket(ticket);
@@ -53,8 +51,7 @@ public class TicketManager {
 
     public Ticket addSeniorTicket(int id, double basePrice, int seat, Client client,
                                   Movie movie, long seniorIDCard, int age) throws WrongTicketException, WrongValueException {
-        Ticket check = repository.find(ticket -> ticket.getId() == id ||
-                (ticket.getMovie() == movie && ticket.getSeat() == seat));
+        Ticket check = repository.find(id);
         if(check == null && seat < movie.getSeatLimit()) {
             Ticket ticket = new Senior(id,basePrice,seat,client,movie,seniorIDCard,age);
             ticket.getClient().addTicket(ticket);
@@ -66,7 +63,7 @@ public class TicketManager {
     }
 
     public boolean removeTicket(int id) throws TicketNotFoundException {
-        Ticket ticketToRemove = repository.find(ticket -> ticket.getId() == id);
+        Ticket ticketToRemove = repository.find(id);
         if(ticketToRemove != null) {
             return repository.remove(ticketToRemove);
         } else {
@@ -74,8 +71,8 @@ public class TicketManager {
         }
     }
 
-    public Ticket findTicket(Predicate<Ticket> predicate) throws TicketNotFoundException {
-        Ticket check = repository.find(predicate);
+    public Ticket findTicket(long id) throws TicketNotFoundException {
+        Ticket check = repository.find(id);
         if(check != null) {
             return check;
         } else {
