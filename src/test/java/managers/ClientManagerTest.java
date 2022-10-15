@@ -3,6 +3,9 @@ package managers;
 import exceptions.ClientAlreadyExistsException;
 import exceptions.ClientNotFoundException;
 import exceptions.WrongValueException;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 import model.Client;
 import org.junit.Test;
 import repositories.Repository;
@@ -18,10 +21,13 @@ public class ClientManagerTest {
     private final String city = "London";
     private final String street = "Sea street";
     private final int number = 20;
+    private final EntityManagerFactory factory =
+            Persistence.createEntityManagerFactory("test");
 
     @Test
     public void addClientTest() throws ClientAlreadyExistsException, WrongValueException, ClientNotFoundException {
-        Repository<Client> repository = new Repository<>(Client.class,"test");
+        EntityManager em = factory.createEntityManager();
+        Repository<Client> repository = new Repository<>(Client.class, em);
         ClientManager clientManager = new ClientManager(repository);
 
         Client client = clientManager.addClient(name, surname, country, city, street, number);
@@ -33,7 +39,8 @@ public class ClientManagerTest {
 
     @Test
     public void removeClientTest() throws ClientAlreadyExistsException, WrongValueException, ClientNotFoundException {
-        Repository<Client> repository = new Repository<>(Client.class,"test");
+        EntityManager em = factory.createEntityManager();
+        Repository<Client> repository = new Repository<>(Client.class, em);
         ClientManager clientManager = new ClientManager(repository);
 
         Client client = clientManager.addClient(name, surname, country, city, street, number);

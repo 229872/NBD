@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Sat Oct 15 16:16:24 CEST 2022:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0183-dc00-cf76-000006d011d0 
+Sat Oct 15 18:31:52 CEST 2022:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0183-dc7c-d44a-00000655fea0 
 on database directory /home/bartek/DB_NAME with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@251a69d7 
 Loaded from file:/home/bartek/.m2/repository/org/apache/derby/derby/10.14.2.0/derby-10.14.2.0.jar
 java.vendor=Private Build

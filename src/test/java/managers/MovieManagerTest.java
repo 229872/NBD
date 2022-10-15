@@ -2,6 +2,9 @@ package managers;
 
 import exceptions.ClientNotFoundException;
 import exceptions.MovieNotFoundException;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 import model.Client;
 import model.Movie;
 import model.sub.Genre;
@@ -19,10 +22,13 @@ public class MovieManagerTest {
     private final int durationInMinutes = 160;
     private final int seatLimit = 140;
 
+    private final EntityManagerFactory factory =
+            Persistence.createEntityManagerFactory("test");
 
     @Test
     public void addMovieTest() throws MovieNotFoundException {
-        Repository<Movie> repository = new Repository<>(Movie.class,"test");
+        EntityManager em = factory.createEntityManager();
+        Repository<Movie> repository = new Repository<>(Movie.class, em);
         MovieManager movieManager = new MovieManager(repository);
 
         Movie movie = movieManager.addMovie(title,genre,ageRestriction,durationInMinutes,seatLimit);
@@ -36,7 +42,8 @@ public class MovieManagerTest {
 
     @Test
     public void removeMovieTest() throws MovieNotFoundException {
-        Repository<Movie> repository = new Repository<>(Movie.class,"test");
+        EntityManager em = factory.createEntityManager();
+        Repository<Movie> repository = new Repository<>(Movie.class, em);
         MovieManager movieManager = new MovieManager(repository);
 
         Movie movie = movieManager.addMovie(title, genre, ageRestriction, durationInMinutes, seatLimit);

@@ -5,17 +5,16 @@ import model.Movie;
 import model.sub.Genre;
 import repositories.Repository;
 
-import java.util.function.Predicate;
 
 public class MovieManager {
     private Repository<Movie> repository;
 
-    public MovieManager() {
-        this.repository = new Repository<>(Movie.class);
-    }
+//    public MovieManager() {
+//        this.repository = RepositoryFactory.createRepository(Movie.class);
+//    }
 
     public MovieManager(Repository<Movie> repository) {
-        this();
+//        this();
         if(repository != null) {
             this.repository = repository;
         }

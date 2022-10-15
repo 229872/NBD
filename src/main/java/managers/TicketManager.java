@@ -10,18 +10,18 @@ import model.*;
 import model.sub.SchoolType;
 import repositories.Repository;
 
+
 import java.util.List;
-import java.util.function.Predicate;
 
 public class TicketManager {
     private Repository<Ticket> repository;
 
-    public TicketManager() {
-        this.repository = new Repository<>(Ticket.class);
-    }
+//    public TicketManager() {
+//        this.repository = RepositoryFactory.createRepository(Ticket.class);
+//    }
 
     public TicketManager(Repository<Ticket> repository) {
-        this();
+//        this();
         if(repository != null) {
             this.repository = repository;
         }

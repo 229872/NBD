@@ -1,23 +1,22 @@
 package managers;
 
-import exceptions.ClientAlreadyExistsException;
 import exceptions.ClientNotFoundException;
 import exceptions.WrongValueException;
+import jakarta.persistence.Persistence;
 import model.sub.Address;
 import model.Client;
 import repositories.Repository;
 
-import java.util.function.Predicate;
 
 public class ClientManager {
     private Repository<Client> repository;
 
-    public ClientManager() {
-        this.repository = new Repository<>(Client.class);
-    }
+//    public ClientManager() {
+//        this.repository = new Repository<>(Client.class, Persistence.c);
+//    }
 
     public ClientManager(Repository<Client> repository) {
-        this();
+//        this();
         if(repository != null) {
             this.repository = repository;
         }
