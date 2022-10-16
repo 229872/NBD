@@ -8,6 +8,7 @@ import managers.ClientManager;
 import managers.MovieManager;
 import managers.TicketManager;
 import model.sub.Genre;
+import repositories.Repository;
 
 public class App {
 

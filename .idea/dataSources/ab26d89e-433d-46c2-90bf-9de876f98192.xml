@@ -1114,6 +1114,7 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
     <column id="302" parent="298" name="id">
+      <AutoIncrement>4</AutoIncrement>
       <DataType>bigint|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
@@ -1162,7 +1163,8 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
     <column id="313" parent="299" name="id">
-      <DataType>int|0s</DataType>
+      <AutoIncrement>4</AutoIncrement>
+      <DataType>bigint|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
@@ -1214,7 +1216,8 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <Position>1</Position>
     </column>
     <column id="324" parent="300" name="id">
-      <DataType>int|0s</DataType>
+      <AutoIncrement>3</AutoIncrement>
+      <DataType>bigint|0s</DataType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
@@ -1259,7 +1262,7 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <Position>11</Position>
     </column>
     <column id="334" parent="300" name="movie_id">
-      <DataType>int|0s</DataType>
+      <DataType>bigint|0s</DataType>
       <NotNull>1</NotNull>
       <Position>12</Position>
     </column>

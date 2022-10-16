@@ -12,7 +12,6 @@ public class Senior extends Ticket {
     @Column(unique = true)
     private long seniorIDCard;
 
-    @NotEmpty
     private int age;
 
     public Senior(double basePrice, int seat, Client client, Movie movie,
