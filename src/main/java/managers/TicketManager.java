@@ -6,6 +6,10 @@ import exceptions.WrongValueException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.LockModeType;
 import jakarta.persistence.Query;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import model.*;
 import model.sub.SchoolType;
 import repositories.Repository;
@@ -25,6 +29,20 @@ public class TicketManager {
         if(repository != null) {
             this.repository = repository;
         }
+    }
+
+    public boolean isSeatTaken(int seat, Movie movie) {
+        EntityManager em = repository.getEm();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+        Root<Ticket> root = cq.from(Ticket.class);
+        cq.select(cb.count(cq.from(Ticket.class)));
+        Predicate equalSeats = cb.equal(root.get("seat"), seat);
+        Predicate equalMovies = cb.equal(root.get("movie"), movie);
+        cq.where(cb.and(equalMovies, equalSeats));
+
+
+        return em.createQuery(cq).getSingleResult() == 1;
     }
 
     public Ticket addNormalTicket(double basePrice, int seat, Client client,

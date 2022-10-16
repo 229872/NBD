@@ -60,6 +60,30 @@ public class Movie extends AbstractEntity {
         return id;
     }
 
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setGenre(Genre genre) {
+        this.genre = genre;
+    }
+
+    public void setAgeRestriction(int ageRestriction) {
+        this.ageRestriction = ageRestriction;
+    }
+
+    public void setDurationInMinutes(int durationInMinutes) {
+        this.durationInMinutes = durationInMinutes;
+    }
+
+    public void setSeatLimit(int seatLimit) {
+        this.seatLimit = seatLimit;
+    }
+
     @Override
     public String toString() {
         return "Movie{" +
