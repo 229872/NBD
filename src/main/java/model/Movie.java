@@ -24,16 +24,27 @@ public class Movie extends AbstractEntity {
 
     private int seatLimit;
 
+    private int seatsTaken;
+
     public Movie(String title, Genre genre, int ageRestriction, int durationInMinutes, int seatLimit) {
         this.title = title;
         this.genre = genre;
         this.ageRestriction = ageRestriction;
         this.durationInMinutes = durationInMinutes;
         this.seatLimit = seatLimit;
+        this.seatsTaken = 0;
     }
 
     protected Movie() {
 
+    }
+
+    public int getSeatsTaken() {
+        return seatsTaken;
+    }
+
+    public void setSeatsTaken(int seatsTaken) {
+        this.seatsTaken = seatsTaken;
     }
 
     public String getTitle() {

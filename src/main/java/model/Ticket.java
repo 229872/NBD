@@ -12,7 +12,7 @@ import jakarta.validation.constraints.NotNull;
 public abstract class Ticket extends AbstractEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
 
     private double basePrice;
@@ -35,6 +35,7 @@ public abstract class Ticket extends AbstractEntity {
         setSeat(seat);
         this.client = client;
         this.movie = movie;
+        this.movie.setSeatsTaken(this.movie.getSeatsTaken()+1);
     }
 
     protected Ticket() {

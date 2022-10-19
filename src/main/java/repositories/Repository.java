@@ -23,6 +23,7 @@ public class Repository<T> {
     public List<T> find(Query query) {
         return query.getResultList();
     }
+
     public void add(T item) {
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();

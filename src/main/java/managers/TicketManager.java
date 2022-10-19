@@ -47,13 +47,8 @@ public class TicketManager {
 
     public Ticket addNormalTicket(double basePrice, int seat, Client client,
                                   Movie movie) throws WrongTicketException, WrongValueException {
-        EntityManager em = repository.getEm();
-        Query query = em.createQuery("FROM Ticket WHERE seat=:seat AND movie=:movie");
-        query.setParameter("seat",seat);
-        query.setParameter("movie",movie);
-        List<Ticket> checker = repository.find(query);
-
-        if(checker.isEmpty()) {
+        boolean isTaken = isSeatTaken(seat, movie);
+        if(!isTaken) {
             Ticket ticket = new Normal(basePrice,seat,client,movie);
             ticket.getClient().addTicket(ticket);
             repository.add(ticket);
@@ -66,13 +61,8 @@ public class TicketManager {
 
     public Ticket addStudentTicket(double basePrice, int seat, Client client,
                                    Movie movie, long studentIDCard, SchoolType schoolType) throws WrongTicketException, WrongValueException {
-        EntityManager em = repository.getEm();
-        Query query = em.createQuery("FROM Ticket WHERE seat=:seat AND movie=:movie");
-        query.setParameter("seat",seat);
-        query.setParameter("movie",movie);
-        List<Ticket> checker = repository.find(query);
-
-        if(checker.isEmpty()) {
+        boolean isTaken = isSeatTaken(seat, movie);
+        if(!isTaken) {
             Ticket ticket = new Student(basePrice, seat, client, movie, studentIDCard, schoolType);
             ticket.getClient().addTicket(ticket);
             repository.add(ticket);
@@ -85,13 +75,8 @@ public class TicketManager {
 
     public Ticket addSeniorTicket(double basePrice, int seat, Client client,
                                   Movie movie, long seniorIDCard, int age) throws WrongTicketException, WrongValueException {
-        EntityManager em = repository.getEm();
-        Query query = em.createQuery("FROM Ticket WHERE seat=:seat AND movie=:movie");
-        query.setParameter("seat",seat);
-        query.setParameter("movie",movie);
-        List<Ticket> checker = repository.find(query);
-
-        if(checker.isEmpty()) {
+        boolean isTaken = isSeatTaken(seat, movie);
+        if(!isTaken) {
             Ticket ticket = new Senior(basePrice,seat,client,movie,seniorIDCard,age);
             ticket.getClient().addTicket(ticket);
             repository.add(ticket);
