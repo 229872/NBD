@@ -43,7 +43,7 @@ public class TicketManagerTest {
     private final String street2 = "Baguette street";
     private final int number2 = 40;
     private final EntityManagerFactory factory =
-            Persistence.createEntityManagerFactory("mysql");
+            Persistence.createEntityManagerFactory("test");
 
     @Test
     public void movieSetTitleOptimisticLockTest() {
