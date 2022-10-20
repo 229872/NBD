@@ -46,7 +46,7 @@ public class TicketManagerTest {
             Persistence.createEntityManagerFactory("mysql");
 
     @Test
-    public void optimisticLockTest() throws WrongValueException {
+    public void movieSetTitleOptimisticLockTest() {
         EntityManager em1 = factory.createEntityManager();
         EntityManager em2 = factory.createEntityManager();
 
@@ -56,20 +56,23 @@ public class TicketManagerTest {
         MovieManager movieManager1 = new MovieManager(movieRepository1);
         movieManager1.addMovie(title, genre, ageRestriction, durationInMinutes, seatLimit);
 
+        EntityTransaction transaction1 = em1.getTransaction();
+        EntityTransaction transaction2 = em2.getTransaction();
+
+        transaction1.begin();
+        transaction2.begin();
         Movie movieForClient1 = movieRepository1.find(1L);
         Movie movieForClient2 = movieRepository2.find(1L);
-
-        em1.getTransaction().begin();
-        movieForClient1.setSeatsTaken(movieForClient1.getSeatsTaken()+1);
-        em1.getTransaction().commit();
-
-        em2.getTransaction().begin();
-        movieForClient2.setSeatsTaken(movieForClient2.getSeatsTaken()+1);
-        assertThrows(RollbackException.class, () -> em2.getTransaction().commit());
+        movieForClient1.setTitle("test1");
+        movieForClient2.setTitle("test2");
+        em1.persist(movieForClient1);
+        transaction1.commit();
+        em2.persist(movieForClient2);
+        assertThrows(RollbackException.class, () -> transaction2.commit()); // OptimisticLockException
 
     }
     @Test
-    public void addTicketOptimisticLockTest() throws WrongValueException, WrongTicketException {
+    public void addTicketOptimisticLockTest() throws WrongValueException {
         EntityManager em1 = factory.createEntityManager();
         EntityManager em2 = factory.createEntityManager();
 
@@ -78,32 +81,25 @@ public class TicketManagerTest {
         Client client1 = clientManager.addClient(name, surname, country, city, street, number);
         Client client2 = clientManager.addClient(name2, surname2, country2, city2, street2, number2);
 
-        Repository<Ticket> ticketRepository1 = new Repository<>(Ticket.class, em1);
-        Repository<Ticket> ticketRepository2 = new Repository<>(Ticket.class, em2);
-        TicketManager ticketManager1 = new TicketManager(ticketRepository1);
-        TicketManager ticketManager2 = new TicketManager(ticketRepository2);
-
         Repository<Movie> movieRepository1 = new Repository<>(Movie.class, em1);
         Repository<Movie> movieRepository2 = new Repository<>(Movie.class, em2);
 
         MovieManager movieManager1 = new MovieManager(movieRepository1);
         movieManager1.addMovie(title, genre, ageRestriction, durationInMinutes, seatLimit);
 
+        EntityTransaction transaction1 = em1.getTransaction();
+        EntityTransaction transaction2 = em2.getTransaction();
+
+        transaction1.begin();
+        transaction2.begin();
         Movie movieForClient1 = movieRepository1.find(1L);
         Movie movieForClient2 = movieRepository2.find(1L);
-
-//        ticketManager1.addNormalTicket(basePrice, seat, client1, movieForClient1);
-//        assertThrows(RollbackException.class,
-//                () -> ticketManager2.addNormalTicket(basePrice, seat, client2, movieForClient2));
-        em1.getTransaction().begin();
         Ticket ticket1 = new Normal(basePrice, seat, client1, movieForClient1);
-        em1.persist(ticket1);
-        em1.getTransaction().commit();
-
-        em2.getTransaction().begin();
         Ticket ticket2 = new Normal(basePrice, seat, client2, movieForClient2);
+        em1.persist(ticket1);
         em2.persist(ticket2);
-        assertThrows(RollbackException.class, () -> em2.getTransaction().commit());;
+        transaction1.commit();
+        assertThrows(RollbackException.class, () -> transaction2.commit());  // OptimisticLockException
     }
 
     @Test
