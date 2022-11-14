@@ -7,6 +7,8 @@ import model.sub.Address;
 import model.Client;
 import repositories.Repository;
 
+import java.util.UUID;
+
 
 public class ClientManager {
     private Repository<Client> repository;
@@ -30,17 +32,17 @@ public class ClientManager {
             return client;
     }
 
-    public boolean removeClient(long id) throws ClientNotFoundException {
-        Client clientToRemove = repository.find(id);
+    public void removeClient(UUID uuid) throws ClientNotFoundException {
+        Client clientToRemove = repository.find(uuid);
         if(clientToRemove != null) {
-            return repository.remove(clientToRemove);
+            repository.remove(clientToRemove);
         } else {
             throw new ClientNotFoundException();
         }
     }
 
-    public Client find(long id) throws ClientNotFoundException {
-        Client client = repository.find(id);
+    public Client find(UUID uuid) throws ClientNotFoundException {
+        Client client = repository.find(uuid);
         if(client != null) {
             return client;
         } else {

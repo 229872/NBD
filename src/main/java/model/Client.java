@@ -5,43 +5,46 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import model.sub.Address;
+import org.bson.codecs.pojo.annotations.BsonCreator;
+import org.bson.codecs.pojo.annotations.BsonProperty;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
-@Entity
-@Access(AccessType.FIELD)
+
 public class Client extends AbstractEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-
-    @NotEmpty
+    @BsonProperty("client_name")
     private String name;
-
-    @NotEmpty
+    @BsonProperty("client_surname")
     private String surname;
-
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride( name = "number", column = @Column(name = "number_of_house"))
-    })
-    @NotNull
+    @BsonProperty("address")
     private Address address;
-
-    @OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @BsonProperty("list_of_tickets")
     private List<Ticket> listOfTickets = new ArrayList<>();
 
-    public Client(String name, String surname, Address address) throws WrongValueException {
-        setName(name);
-        setSurname(surname);
+    @BsonCreator
+    public Client(@BsonProperty("_id") UUID uuid,
+                  @BsonProperty("client_name") String name,
+                  @BsonProperty("client_surname") String surname,
+                  @BsonProperty("address") Address address
+                  ) {
+        super(uuid);
+        this.name = name;
+        this.surname = surname;
         this.address = address;
     }
 
-    protected Client() {
-
-    }
+//    public Client(String name, String surname, Address address) throws WrongValueException {
+//        setName(name);
+//        setSurname(surname);
+//        this.address = address;
+//    }
+//
+//    protected Client() {
+//
+//    }
 
     public String getName() {
         return name;
@@ -51,9 +54,6 @@ public class Client extends AbstractEntity {
         return surname;
     }
 
-    public long getId() {
-        return id;
-    }
 
     public Address getAddress() {
         return address;
@@ -87,8 +87,7 @@ public class Client extends AbstractEntity {
     @Override
     public String toString() {
         return "Client{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
+                "name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", address=" + address +
                 '}';

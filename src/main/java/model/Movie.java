@@ -3,41 +3,57 @@ package model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import model.sub.Genre;
+import org.bson.codecs.pojo.annotations.BsonCreator;
+import org.bson.codecs.pojo.annotations.BsonProperty;
 
-@Entity
-@Access(AccessType.FIELD)
+import java.util.UUID;
+
 public class Movie extends AbstractEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-
-    @NotEmpty
+    @BsonProperty("movie_title")
     private String title;
-
-    @Enumerated(EnumType.STRING)
+    @BsonProperty("movie_genre")
     private Genre genre;
-
+    @BsonProperty("age_restriction")
     private int ageRestriction;
-
+    @BsonProperty("duration_in_minutes")
     private int durationInMinutes;
-
+    @BsonProperty("seat_limit")
     private int seatLimit;
-
+    @BsonProperty("seats_taken")
     private int seatsTaken;
 
-    public Movie(String title, Genre genre, int ageRestriction, int durationInMinutes, int seatLimit) {
+    @BsonCreator
+    public Movie(
+            @BsonProperty("_id") UUID uuid,
+            @BsonProperty("movie_title") String title,
+            @BsonProperty("movie_genre") Genre genre,
+            @BsonProperty("age_restriction") int ageRestriction,
+            @BsonProperty("duration_in_minutes") int durationInMinutes,
+            @BsonProperty("seat_limit") int seatLimit,
+            @BsonProperty("seats_taken") int seatsTaken
+    ) {
+        super(uuid);
         this.title = title;
         this.genre = genre;
         this.ageRestriction = ageRestriction;
         this.durationInMinutes = durationInMinutes;
         this.seatLimit = seatLimit;
-        this.seatsTaken = 0;
+        this.seatsTaken = seatsTaken;
     }
 
-    protected Movie() {
-
-    }
+//    public Movie(String title, Genre genre, int ageRestriction, int durationInMinutes, int seatLimit) {
+//        this.title = title;
+//        this.genre = genre;
+//        this.ageRestriction = ageRestriction;
+//        this.durationInMinutes = durationInMinutes;
+//        this.seatLimit = seatLimit;
+//        this.seatsTaken = 0;
+//    }
+//
+//    protected Movie() {
+//
+//    }
 
     public int getSeatsTaken() {
         return seatsTaken;
@@ -67,14 +83,6 @@ public class Movie extends AbstractEntity {
         return seatLimit;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
     public void setTitle(String title) {
         this.title = title;
     }
@@ -98,8 +106,7 @@ public class Movie extends AbstractEntity {
     @Override
     public String toString() {
         return "Movie{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
+                "title='" + title + '\'' +
                 ", genre=" + genre +
                 ", ageRestriction=" + ageRestriction +
                 ", durationInMinutes=" + durationInMinutes +

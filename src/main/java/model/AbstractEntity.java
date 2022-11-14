@@ -5,18 +5,22 @@ import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.Version;
 import jakarta.validation.constraints.NotNull;
+import org.bson.codecs.pojo.annotations.BsonProperty;
 import org.hibernate.annotations.Type;
 
 import java.io.Serializable;
 import java.util.UUID;
 
-@MappedSuperclass
 public abstract class AbstractEntity implements Serializable {
 
-    @Column(name = "uuid")
-    @Type(type = "uuid-char")
-    private UUID uuid = UUID.randomUUID();
+    @BsonProperty("_id")
+    private final UniqueId id;
 
-    @Version
-    private long version;
+    public AbstractEntity(UniqueId id) {
+        this.id = id;
+    }
+
+    public UniqueId getUuid() {
+        return id;
+    }
 }
