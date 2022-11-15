@@ -26,7 +26,7 @@ public class Movie extends AbstractEntity {
 
     @BsonCreator
     public Movie(
-            @BsonProperty("_id") UniqueId id,
+            @BsonProperty("id") UniqueId id,
             @BsonProperty("movie_title") String title,
             @BsonProperty("movie_genre") Genre genre,
             @BsonProperty("age_restriction") int ageRestriction,
