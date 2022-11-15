@@ -17,7 +17,7 @@ import java.util.List;
 public class AbstractRepository implements AutoCloseable {
     private ConnectionString connectionString = new ConnectionString("mongodb://localhost:27017");
     private MongoCredential credential =
-            MongoCredential.createCredential("nbd", "mongodb", "nbdpassword".toCharArray());
+            MongoCredential.createCredential("root", "nbd", "root".toCharArray());
     private CodecRegistry pojoCodecRegistry =
             CodecRegistries.fromProviders(PojoCodecProvider.builder()
                             .automatic(true)

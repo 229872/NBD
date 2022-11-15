@@ -5,6 +5,8 @@ import model.Movie;
 import model.sub.Genre;
 import repositories.Repository;
 
+import java.util.UUID;
+
 
 public class MovieManager {
     private Repository<Movie> repository;
@@ -27,17 +29,17 @@ public class MovieManager {
         return movie;
     }
 
-    public boolean removeMovie(long id) throws MovieNotFoundException {
-        Movie movieToRemove = repository.find(id);
+    public void removeMovie(UUID uuid) throws MovieNotFoundException {
+        Movie movieToRemove = repository.find(uuid);
         if(movieToRemove != null) {
-            return repository.remove(movieToRemove);
+            repository.remove(movieToRemove);
         } else {
             throw new MovieNotFoundException();
         }
     }
 
-    public Movie findMovie(long id) throws MovieNotFoundException {
-        Movie found = repository.find(id);
+    public Movie findMovie(UUID uuid) throws MovieNotFoundException {
+        Movie found = repository.find(uuid);
         if(found != null) {
             return found;
         } else {

@@ -25,7 +25,7 @@ public class Movie extends AbstractEntity {
 
     @BsonCreator
     public Movie(
-            @BsonProperty("_id") UUID uuid,
+            @BsonProperty("_id") UniqueId id,
             @BsonProperty("movie_title") String title,
             @BsonProperty("movie_genre") Genre genre,
             @BsonProperty("age_restriction") int ageRestriction,
@@ -33,7 +33,7 @@ public class Movie extends AbstractEntity {
             @BsonProperty("seat_limit") int seatLimit,
             @BsonProperty("seats_taken") int seatsTaken
     ) {
-        super(uuid);
+        super(id);
         this.title = title;
         this.genre = genre;
         this.ageRestriction = ageRestriction;
@@ -42,14 +42,15 @@ public class Movie extends AbstractEntity {
         this.seatsTaken = seatsTaken;
     }
 
-//    public Movie(String title, Genre genre, int ageRestriction, int durationInMinutes, int seatLimit) {
-//        this.title = title;
-//        this.genre = genre;
-//        this.ageRestriction = ageRestriction;
-//        this.durationInMinutes = durationInMinutes;
-//        this.seatLimit = seatLimit;
-//        this.seatsTaken = 0;
-//    }
+    public Movie(String title, Genre genre, int ageRestriction, int durationInMinutes, int seatLimit) {
+        super(new UniqueId());
+        this.title = title;
+        this.genre = genre;
+        this.ageRestriction = ageRestriction;
+        this.durationInMinutes = durationInMinutes;
+        this.seatLimit = seatLimit;
+        this.seatsTaken = 0;
+    }
 //
 //    protected Movie() {
 //

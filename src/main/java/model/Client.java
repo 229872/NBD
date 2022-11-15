@@ -21,26 +21,27 @@ public class Client extends AbstractEntity {
     private String surname;
     @BsonProperty("address")
     private Address address;
-    @BsonProperty("list_of_tickets")
-    private List<Ticket> listOfTickets = new ArrayList<>();
+//    @BsonProperty("list_of_tickets")
+//    private List<Ticket> listOfTickets = new ArrayList<>();
 
     @BsonCreator
-    public Client(@BsonProperty("_id") UUID uuid,
+    public Client(@BsonProperty("_id") UniqueId id,
                   @BsonProperty("client_name") String name,
                   @BsonProperty("client_surname") String surname,
                   @BsonProperty("address") Address address
                   ) {
-        super(uuid);
+        super(id);
         this.name = name;
         this.surname = surname;
         this.address = address;
     }
 
-//    public Client(String name, String surname, Address address) throws WrongValueException {
-//        setName(name);
-//        setSurname(surname);
-//        this.address = address;
-//    }
+    public Client(String name, String surname, Address address) throws WrongValueException {
+        super(new UniqueId());
+        setName(name);
+        setSurname(surname);
+        this.address = address;
+    }
 //
 //    protected Client() {
 //
@@ -76,13 +77,13 @@ public class Client extends AbstractEntity {
         }
     }
 
-    public void addTicket(Ticket ticket) {
-        listOfTickets.add(ticket);
-    }
-
-    public List<Ticket> getListOfTickets() {
-        return new ArrayList<>(listOfTickets);
-    }
+//    public void addTicket(Ticket ticket) {
+//        listOfTickets.add(ticket);
+//    }
+//
+//    public List<Ticket> getListOfTickets() {
+//        return new ArrayList<>(listOfTickets);
+//    }
 
     @Override
     public String toString() {
