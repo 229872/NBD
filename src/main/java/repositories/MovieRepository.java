@@ -19,7 +19,7 @@ public class MovieRepository extends AbstractRepository implements Repository<Mo
 
     @Override
     public void remove(Movie item) {
-        MongoCollection<Movie> moviesCollection = getDb().getCollection("movie", Movie.class);
+        MongoCollection<Movie> moviesCollection = getDb().getCollection("movies", Movie.class);
         Bson filter = eq("_id", item.getUuid());
         moviesCollection.deleteOne(filter);
     }
