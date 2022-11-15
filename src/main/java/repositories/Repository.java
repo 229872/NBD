@@ -8,6 +8,8 @@ import java.util.UUID;
 public interface Repository <T> {
     void add(T item);
     void remove(T item);
+
+    void update(T item);
     T find(UniqueId id);
     List<T> findAll();
 }

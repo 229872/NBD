@@ -8,6 +8,7 @@ import model.sub.Address;
 import model.Client;
 import repositories.Repository;
 
+import java.util.Objects;
 import java.util.UUID;
 
 
@@ -49,5 +50,10 @@ public class ClientManager {
         } else {
             throw new ClientNotFoundException();
         }
+    }
+
+    public void updateClient(Client client) {
+        Objects.requireNonNull(client);
+        repository.update(client);
     }
 }

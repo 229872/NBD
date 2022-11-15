@@ -1,9 +1,11 @@
 package repositories;
 
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.model.Updates;
 import model.Client;
 import model.UniqueId;
 import org.bson.conversions.Bson;
+import org.hibernate.sql.Update;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +25,18 @@ public class ClientRepository extends AbstractRepository implements Repository<C
         MongoCollection<Client> clientsCollection = getDb().getCollection("clients", Client.class);
         Bson filter = eq("uuid", item.getUuid().getUuid());
         clientsCollection.deleteOne(filter);
+    }
+
+    @Override
+    public void update(Client item) {
+        MongoCollection<Client> clientsCollection = getDb().getCollection("clients", Client.class);
+        Bson filter = eq("uuid", item.getUuid().getUuid());
+        Bson update = Updates.combine(
+                Updates.set("address", item.getAddress()),
+                Updates.set("client_name", item.getName()),
+                Updates.set("client_surname", item.getSurname())
+        );
+        clientsCollection.updateOne(filter, update);
     }
 
     @Override

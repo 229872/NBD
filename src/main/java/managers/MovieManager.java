@@ -7,6 +7,8 @@ import model.sub.Genre;
 import repositories.MovieRepository;
 import repositories.Repository;
 
+import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 
@@ -49,13 +51,18 @@ public class MovieManager {
         }
     }
 
-    public Movie findMovieByTitle(String title) throws MovieNotFoundException {
-        Movie found = repository.findByName(title);
-        if(found != null) {
+    public List<Movie> findMovieByTitle(String title) throws MovieNotFoundException {
+        List<Movie> found = repository.findByName(title);
+        if(!found.isEmpty()) {
             return found;
         } else {
             throw new MovieNotFoundException();
         }
+    }
+
+    public void updateMovie(Movie movie) {
+        Objects.requireNonNull(movie);
+        repository.update(movie);
     }
 
 
