@@ -2,6 +2,7 @@ package repositories;
 
 import com.mongodb.client.MongoCollection;
 import model.Client;
+import model.UniqueId;
 import org.bson.conversions.Bson;
 
 import java.util.ArrayList;
@@ -20,14 +21,14 @@ public class ClientRepository extends AbstractRepository implements Repository<C
     @Override
     public void remove(Client item) {
         MongoCollection<Client> clientsCollection = getDb().getCollection("clients", Client.class);
-        Bson filter = eq("_id", item.getUuid().getUuid());
+        Bson filter = eq("uuid", item.getUuid().getUuid());
         clientsCollection.deleteOne(filter);
     }
 
     @Override
-    public Client find(UUID uuid) {
+    public Client find(UniqueId id) {
         MongoCollection<Client> clientsCollection = getDb().getCollection("clients", Client.class);
-        Bson filter = eq("_id", uuid);
+        Bson filter = eq("uuid", id.getUuid());
         return clientsCollection.find(filter).first();
     }
 

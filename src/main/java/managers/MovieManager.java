@@ -2,21 +2,23 @@ package managers;
 
 import exceptions.MovieNotFoundException;
 import model.Movie;
+import model.UniqueId;
 import model.sub.Genre;
+import repositories.MovieRepository;
 import repositories.Repository;
 
 import java.util.UUID;
 
 
 public class MovieManager {
-    private Repository<Movie> repository;
+    private MovieRepository repository;
 
 //    public MovieManager() {
 //        this.repository = RepositoryFactory.createRepository(Movie.class);
 //    }
 
-    public MovieManager(Repository<Movie> repository) {
-//        this();
+
+    public MovieManager(MovieRepository repository) {
         if(repository != null) {
             this.repository = repository;
         }
@@ -29,7 +31,7 @@ public class MovieManager {
         return movie;
     }
 
-    public void removeMovie(UUID uuid) throws MovieNotFoundException {
+    public void removeMovie(UniqueId uuid) throws MovieNotFoundException {
         Movie movieToRemove = repository.find(uuid);
         if(movieToRemove != null) {
             repository.remove(movieToRemove);
@@ -38,8 +40,17 @@ public class MovieManager {
         }
     }
 
-    public Movie findMovie(UUID uuid) throws MovieNotFoundException {
+    public Movie findMovie(UniqueId uuid) throws MovieNotFoundException {
         Movie found = repository.find(uuid);
+        if(found != null) {
+            return found;
+        } else {
+            throw new MovieNotFoundException();
+        }
+    }
+
+    public Movie findMovieByTitle(String title) throws MovieNotFoundException {
+        Movie found = repository.findByName(title);
         if(found != null) {
             return found;
         } else {

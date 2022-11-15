@@ -3,6 +3,7 @@ package managers;
 import exceptions.ClientNotFoundException;
 import exceptions.WrongValueException;
 import jakarta.persistence.Persistence;
+import model.UniqueId;
 import model.sub.Address;
 import model.Client;
 import repositories.Repository;
@@ -32,7 +33,7 @@ public class ClientManager {
             return client;
     }
 
-    public void removeClient(UUID uuid) throws ClientNotFoundException {
+    public void removeClient(UniqueId uuid) throws ClientNotFoundException {
         Client clientToRemove = repository.find(uuid);
         if(clientToRemove != null) {
             repository.remove(clientToRemove);
@@ -41,7 +42,7 @@ public class ClientManager {
         }
     }
 
-    public Client find(UUID uuid) throws ClientNotFoundException {
+    public Client find(UniqueId uuid) throws ClientNotFoundException {
         Client client = repository.find(uuid);
         if(client != null) {
             return client;

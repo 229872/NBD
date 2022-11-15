@@ -1,5 +1,6 @@
 package model;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class UniqueId {
@@ -25,4 +26,5 @@ public class UniqueId {
     public String toString() {
         return uuid.toString();
     }
+
 }

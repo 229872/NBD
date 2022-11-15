@@ -93,4 +93,9 @@ public class Client extends AbstractEntity {
                 ", address=" + address +
                 '}';
     }
+
+    @Override
+    public void close() throws Exception {
+
+    }
 }

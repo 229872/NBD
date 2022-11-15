@@ -6,6 +6,7 @@ import model.sub.Genre;
 import org.bson.codecs.pojo.annotations.BsonCreator;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class Movie extends AbstractEntity {
@@ -113,5 +114,36 @@ public class Movie extends AbstractEntity {
                 ", durationInMinutes=" + durationInMinutes +
                 ", seatLimit=" + seatLimit +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Movie movie = (Movie) o;
+
+        if (ageRestriction != movie.ageRestriction) return false;
+        if (durationInMinutes != movie.durationInMinutes) return false;
+        if (seatLimit != movie.seatLimit) return false;
+        if (seatsTaken != movie.seatsTaken) return false;
+        if (!Objects.equals(title, movie.title)) return false;
+        return genre == movie.genre;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = title != null ? title.hashCode() : 0;
+        result = 31 * result + (genre != null ? genre.hashCode() : 0);
+        result = 31 * result + ageRestriction;
+        result = 31 * result + durationInMinutes;
+        result = 31 * result + seatLimit;
+        result = 31 * result + seatsTaken;
+        return result;
+    }
+
+    @Override
+    public void close() throws Exception {
+
     }
 }
