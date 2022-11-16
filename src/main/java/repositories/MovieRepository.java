@@ -27,9 +27,9 @@ public class MovieRepository extends AbstractRepository implements Repository<Mo
     }
 
     @Override
-    public void update(Movie item) {
+    public void update(UniqueId uuid, Movie item) {
         MongoCollection<Movie> moviesCollection = getDb().getCollection("movies", Movie.class);
-        Bson filter = eq("uuid", item.getUuid());
+        Bson filter = eq("uuid", uuid);
         Bson update = Updates.combine(
                 Updates.set("age_restriction", item.getAgeRestriction()),
                 Updates.set("duration_in_minutes", item.getDurationInMinutes()),

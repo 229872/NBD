@@ -72,11 +72,9 @@ public class TicketManager {
         }
     }
 
-
-
-    public void updateTicket(Ticket ticket) {
+    public void updateTicket(String uuid, Ticket ticket) {
         Objects.requireNonNull(ticket);
-        repository.update(ticket);
+        repository.update(new UniqueId(UUID.fromString(uuid)), ticket);
     }
 
 

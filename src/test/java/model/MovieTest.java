@@ -1,6 +1,5 @@
 package model;
 
-import model.sub.Genre;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

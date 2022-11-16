@@ -19,12 +19,7 @@ import java.util.UUID;
 public class ClientManager {
     private ClientRepository repository;
 
-//    public ClientManager() {
-//        this.repository = new Repository<>(Client.class, Persistence.c);
-//    }
-
     public ClientManager(ClientRepository repository) {
-//        this();
         if(repository != null) {
             this.repository = repository;
         }
@@ -66,8 +61,8 @@ public class ClientManager {
         }
     }
 
-    public void updateClient(Client client) {
+    public void updateClient(String uuid, Client client) {
         Objects.requireNonNull(client);
-        repository.update(client);
+        repository.update(new UniqueId(UUID.fromString(uuid)) ,client);
     }
 }

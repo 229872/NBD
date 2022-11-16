@@ -9,7 +9,7 @@ public interface Repository <T> {
     void add(T item);
     void remove(T item);
 
-    void update(T item);
+    void update(UniqueId uuid, T item);
     T find(UniqueId id);
     List<T> findAll();
 }
