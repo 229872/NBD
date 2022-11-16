@@ -15,11 +15,6 @@ import java.util.UUID;
 public class MovieManager {
     private MovieRepository repository;
 
-//    public MovieManager() {
-//        this.repository = RepositoryFactory.createRepository(Movie.class);
-//    }
-
-
     public MovieManager(MovieRepository repository) {
         if(repository != null) {
             this.repository = repository;
@@ -33,8 +28,8 @@ public class MovieManager {
         return movie;
     }
 
-    public void removeMovie(UniqueId uuid) throws MovieNotFoundException {
-        Movie movieToRemove = repository.find(uuid);
+    public void removeMovie(String uuid) throws MovieNotFoundException {
+        Movie movieToRemove = repository.find(new UniqueId(UUID.fromString(uuid)));
         if(movieToRemove != null) {
             repository.remove(movieToRemove);
         } else {
@@ -42,8 +37,8 @@ public class MovieManager {
         }
     }
 
-    public Movie findMovie(UniqueId uuid) throws MovieNotFoundException {
-        Movie found = repository.find(uuid);
+    public Movie findMovie(String uuid) throws MovieNotFoundException {
+        Movie found = repository.find(new UniqueId(UUID.fromString(uuid)));
         if(found != null) {
             return found;
         } else {

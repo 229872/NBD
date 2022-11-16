@@ -34,17 +34,17 @@ public class ClientManager {
             return client;
     }
 
-    public void removeClient(UniqueId uuid) throws ClientNotFoundException {
-        Client clientToRemove = repository.find(uuid);
-        if(clientToRemove != null) {
-            repository.remove(clientToRemove);
+    public void removeClient(String uuid) throws ClientNotFoundException {
+        Client client = repository.find(new UniqueId(UUID.fromString(uuid)));
+        if(client != null) {
+            repository.remove(client);
         } else {
             throw new ClientNotFoundException();
         }
     }
 
-    public Client find(UniqueId uuid) throws ClientNotFoundException {
-        Client client = repository.find(uuid);
+    public Client findClient(String uuid) throws ClientNotFoundException {
+        Client client = repository.find(new UniqueId(UUID.fromString(uuid)));
         if(client != null) {
             return client;
         } else {
