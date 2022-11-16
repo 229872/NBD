@@ -6,6 +6,7 @@ import jakarta.persistence.Persistence;
 import model.UniqueId;
 import model.sub.Address;
 import model.Client;
+import repositories.ClientRepository;
 import repositories.Repository;
 
 import java.util.Objects;
@@ -13,14 +14,9 @@ import java.util.UUID;
 
 
 public class ClientManager {
-    private Repository<Client> repository;
+    private ClientRepository repository;
 
-//    public ClientManager() {
-//        this.repository = new Repository<>(Client.class, Persistence.c);
-//    }
-
-    public ClientManager(Repository<Client> repository) {
-//        this();
+    public ClientManager(ClientRepository repository) {
         if(repository != null) {
             this.repository = repository;
         }
@@ -52,8 +48,8 @@ public class ClientManager {
         }
     }
 
-    public void updateClient(Client client) {
+    public void updateClient(String uuid, Client client) {
         Objects.requireNonNull(client);
-        repository.update(client);
+        repository.update(new UniqueId(UUID.fromString(uuid)) ,client);
     }
 }

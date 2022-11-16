@@ -3,9 +3,7 @@ package managers;
 import exceptions.MovieNotFoundException;
 import model.Movie;
 import model.UniqueId;
-import model.sub.Genre;
 import repositories.MovieRepository;
-import repositories.Repository;
 
 import java.util.List;
 import java.util.Objects;
@@ -21,7 +19,7 @@ public class MovieManager {
         }
     }
 
-    public Movie addMovie(String title, Genre genre, int ageRestriction, int durationInMinutes,
+    public Movie addMovie(String title, String genre, int ageRestriction, int durationInMinutes,
                           int seatLimit) {
         Movie movie = new Movie(title,genre,ageRestriction, durationInMinutes,seatLimit);
         this.repository.add(movie);
@@ -55,9 +53,12 @@ public class MovieManager {
         }
     }
 
-    public void updateMovie(Movie movie) {
-        Objects.requireNonNull(movie);
-        repository.update(movie);
+    public void updateMovie(String uuid, String title, String genre, int ageRestriction,
+                            int durationInMinutes, int seatLimit ) {
+        Movie check = repository.find(new UniqueId(UUID.fromString(uuid)));
+        Objects.requireNonNull(check);
+        Movie movie = new Movie(title, genre, ageRestriction, durationInMinutes, seatLimit);
+        repository.update(new UniqueId(UUID.fromString(uuid)) ,movie);
     }
 
 

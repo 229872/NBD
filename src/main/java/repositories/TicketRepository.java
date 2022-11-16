@@ -27,9 +27,9 @@ public class TicketRepository extends AbstractRepository implements Repository<T
     }
 
     @Override
-    public void update(Ticket item) {
+    public void update(UniqueId uuid, Ticket item) {
         MongoCollection<Ticket> ticketsCollection = getDb().getCollection("tickets", Ticket.class);
-        Bson filter = eq("uuid", item.getUuid().getUuid());
+        Bson filter = eq("uuid", uuid);
 //        Bson update = Updates.combine(
 //                Updates.set("address", item.getAddress()),
 //                Updates.set("client_name", item.getName()),

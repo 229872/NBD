@@ -28,9 +28,9 @@ public class ClientRepository extends AbstractRepository implements Repository<C
     }
 
     @Override
-    public void update(Client item) {
+    public void update(UniqueId uuid, Client item) {
         MongoCollection<Client> clientsCollection = getDb().getCollection("clients", Client.class);
-        Bson filter = eq("uuid", item.getUuid().getUuid());
+        Bson filter = eq("uuid", uuid);
         Bson update = Updates.combine(
                 Updates.set("address", item.getAddress()),
                 Updates.set("client_name", item.getName()),

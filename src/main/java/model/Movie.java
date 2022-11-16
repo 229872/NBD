@@ -1,20 +1,16 @@
 package model;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
-import model.sub.Genre;
 import org.bson.codecs.pojo.annotations.BsonCreator;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 
 import java.util.Objects;
-import java.util.UUID;
 
 public class Movie extends AbstractEntity {
 
     @BsonProperty("movie_title")
     private String title;
     @BsonProperty("movie_genre")
-    private Genre genre;
+    private String genre;
     @BsonProperty("age_restriction")
     private int ageRestriction;
     @BsonProperty("duration_in_minutes")
@@ -26,9 +22,9 @@ public class Movie extends AbstractEntity {
 
     @BsonCreator
     public Movie(
-            @BsonProperty("id") UniqueId id,
+            @BsonProperty("uuid") UniqueId id,
             @BsonProperty("movie_title") String title,
-            @BsonProperty("movie_genre") Genre genre,
+            @BsonProperty("movie_genre") String genre,
             @BsonProperty("age_restriction") int ageRestriction,
             @BsonProperty("duration_in_minutes") int durationInMinutes,
             @BsonProperty("seat_limit") int seatLimit,
@@ -43,7 +39,7 @@ public class Movie extends AbstractEntity {
         this.seatsTaken = seatsTaken;
     }
 
-    public Movie(String title, Genre genre, int ageRestriction, int durationInMinutes, int seatLimit) {
+    public Movie(String title, String genre, int ageRestriction, int durationInMinutes, int seatLimit) {
         super(new UniqueId());
         this.title = title;
         this.genre = genre;
@@ -69,7 +65,7 @@ public class Movie extends AbstractEntity {
         return title;
     }
 
-    public Genre getGenre() {
+    public String getGenre() {
         return genre;
     }
 
@@ -89,7 +85,7 @@ public class Movie extends AbstractEntity {
         this.title = title;
     }
 
-    public void setGenre(Genre genre) {
+    public void setGenre(String genre) {
         this.genre = genre;
     }
 

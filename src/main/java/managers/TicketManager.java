@@ -83,9 +83,9 @@ public class TicketManager extends AbstractRepository {
         }
     }
 
-    public void updateTicket(Ticket ticket) {
+    public void updateTicket(String uuid, Ticket ticket) {
         Objects.requireNonNull(ticket);
-        repository.update(ticket);
+        repository.update(new UniqueId(UUID.fromString(uuid)), ticket);
     }
 
     public void removeTicket(String uuid) throws TicketNotFoundException {

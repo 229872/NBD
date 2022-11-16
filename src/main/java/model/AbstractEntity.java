@@ -14,7 +14,7 @@ import java.util.UUID;
 
 public abstract class AbstractEntity implements AutoCloseable {
 
-    @BsonProperty("id")
+    @BsonProperty("uuid")
     private final UniqueId id;
 
     public AbstractEntity(UniqueId id) {
