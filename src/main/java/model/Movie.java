@@ -48,10 +48,6 @@ public class Movie extends AbstractEntity {
         this.seatLimit = seatLimit;
         this.seatsTaken = 0;
     }
-//
-//    protected Movie() {
-//
-//    }
 
     public int getSeatsTaken() {
         return seatsTaken;

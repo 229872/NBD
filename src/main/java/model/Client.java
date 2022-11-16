@@ -1,16 +1,9 @@
 package model;
 
 import exceptions.WrongValueException;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import model.sub.Address;
 import org.bson.codecs.pojo.annotations.BsonCreator;
 import org.bson.codecs.pojo.annotations.BsonProperty;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 
 public class Client extends AbstractEntity {
@@ -42,10 +35,6 @@ public class Client extends AbstractEntity {
         setSurname(surname);
         this.address = address;
     }
-//
-//    protected Client() {
-//
-//    }
 
     public String getName() {
         return name;
@@ -76,14 +65,6 @@ public class Client extends AbstractEntity {
             throw new WrongValueException("Surname cannot be blank");
         }
     }
-
-//    public void addTicket(Ticket ticket) {
-//        listOfTickets.add(ticket);
-//    }
-//
-//    public List<Ticket> getListOfTickets() {
-//        return new ArrayList<>(listOfTickets);
-//    }
 
     @Override
     public String toString() {

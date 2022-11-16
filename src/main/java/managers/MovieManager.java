@@ -53,11 +53,8 @@ public class MovieManager {
         }
     }
 
-    public void updateMovie(String uuid, String title, String genre, int ageRestriction,
-                            int durationInMinutes, int seatLimit ) {
-        Movie check = repository.find(new UniqueId(UUID.fromString(uuid)));
-        Objects.requireNonNull(check);
-        Movie movie = new Movie(title, genre, ageRestriction, durationInMinutes, seatLimit);
+    public void updateMovie(String uuid, Movie movie ) {
+        Objects.requireNonNull(movie);
         repository.update(new UniqueId(UUID.fromString(uuid)) ,movie);
     }
 

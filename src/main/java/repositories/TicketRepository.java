@@ -1,8 +1,8 @@
 package repositories;
 
 import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Updates;
 import model.Movie;
 import model.Ticket;
 import model.UniqueId;
@@ -32,12 +32,14 @@ public class TicketRepository extends AbstractRepository implements Repository<T
     public void update(UniqueId uuid, Ticket item) {
         MongoCollection<Ticket> ticketsCollection = getDb().getCollection("tickets", Ticket.class);
         Bson filter = eq("uuid", uuid);
-//        Bson update = Updates.combine(
-//                Updates.set("address", item.getAddress()),
-//                Updates.set("client_name", item.getName()),
-//                Updates.set("client_surname", item.getSurname())
-//        );
-//        ticketsCollection.updateOne(filter, update);
+        Bson update = Updates.combine(
+                Updates.set("base_price", item.getBasePrice()),
+                Updates.set("movie", item.getMovie()),
+                Updates.set("client", item.getClient()),
+                Updates.set("seat", item.getSeat()),
+                Updates.set("ticketPrice", item.getTicketPrice())
+        );
+        ticketsCollection.updateOne(filter, update);
     }
 
     @Override

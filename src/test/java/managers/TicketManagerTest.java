@@ -1,24 +1,15 @@
 package managers;
-
 import exceptions.*;
-import jakarta.persistence.*;
-import jakarta.transaction.Transactional;
 import model.Client;
 import model.Movie;
-import model.Normal;
+import model.Student;
 import model.Ticket;
-import model.sub.Address;
-import model.sub.Genre;
 import model.sub.SchoolType;
 import org.junit.Test;
 import repositories.ClientRepository;
 import repositories.MovieRepository;
-import repositories.Repository;
 import repositories.TicketRepository;
-
-
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class TicketManagerTest {
@@ -29,7 +20,7 @@ public class TicketManagerTest {
     private final String street = "Sea street";
     private final int number = 20;
     private final String title = "Star Wars I";
-    private final Genre genre = Genre.SCI_FI;
+    private final String genre = "SCI_FI";
     private final int ageRestriction = 13;
     private final int durationInMinutes = 160;
     private final int seatLimit = 140;
@@ -125,7 +116,23 @@ public class TicketManagerTest {
         assertEquals(movie, ticket.getMovie());
     }
     @Test
-    public void updateTicket() {
+    public void updateTicketTest() throws WrongValueException, WrongTicketException, TicketNotFoundException {
+        MovieManager movieManager = new MovieManager(new MovieRepository());
+        ClientManager clientManager = new ClientManager(new ClientRepository());
+        TicketManager ticketManager = new TicketManager(new TicketRepository());
+
+        Movie movie = movieManager.addMovie(title, genre, ageRestriction, durationInMinutes, seatLimit);
+        Client client = clientManager.addClient(name, surname, country, city, street, number);
+        Ticket added = ticketManager.addStudentTicket(basePrice, seat, client, movie, 123, SchoolType.PRIMARY_SCHOOL);
+
+        Ticket updated = new Student(10, 20, client, movie, 555, SchoolType.PRIMARY_SCHOOL);
+        ticketManager.updateTicket(added.getUuid().getUuid().toString(), updated);
+
+        Ticket find = ticketManager.findTicket(updated.getUuid().getUuid().toString());
+        assertEquals(10, find.getBasePrice(), 0.1);
+        assertEquals(20, find.getSeat());
+        assertEquals(client, find.getClient());
+        assertEquals(movie, find.getMovie());
 
     }
 }

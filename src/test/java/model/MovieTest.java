@@ -8,7 +8,7 @@ public class MovieTest {
     @Test
     public void movieCreationTest() {
         String title = "Star Wars I";
-        Genre genre = Genre.SCI_FI;
+        String genre = "SCI_FI";
         int age = 13;
         int duration = 160;
         int seatLimit = 140;

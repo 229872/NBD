@@ -5,10 +5,8 @@ import com.mongodb.client.model.Updates;
 import model.Movie;
 import model.UniqueId;
 import org.bson.conversions.Bson;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import static com.mongodb.client.model.Filters.eq;
 

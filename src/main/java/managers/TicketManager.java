@@ -1,15 +1,11 @@
 package managers;
 
-import com.mongodb.client.MongoCollection;
-import exceptions.ClientNotFoundException;
 import exceptions.TicketNotFoundException;
 import exceptions.WrongTicketException;
 import exceptions.WrongValueException;
 import model.*;
 import model.sub.SchoolType;
 import repositories.TicketRepository;
-
-import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -18,7 +14,6 @@ public class TicketManager {
 
 
     public TicketManager(TicketRepository repository) {
-//        this();
         if(repository != null) {
             this.repository = repository;
         }

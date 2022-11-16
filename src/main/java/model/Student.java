@@ -1,7 +1,6 @@
 package model;
 
 import exceptions.WrongValueException;
-import jakarta.persistence.*;
 import model.sub.SchoolType;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 
@@ -15,7 +14,7 @@ public class Student extends Ticket {
 
     public Student(double basePrice, int seat, Client client, Movie movie,
                    long studentIDCard, SchoolType schoolType) throws WrongValueException {
-        super(basePrice, seat, client, movie);
+        super(new UniqueId(), basePrice, seat, client, movie);
         setStudentIDCard(studentIDCard);
         setSchoolType(schoolType);
     }

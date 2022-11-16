@@ -3,6 +3,7 @@ package managers;
 import exceptions.ClientNotFoundException;
 import exceptions.WrongValueException;
 import model.Client;
+import model.sub.Address;
 import org.junit.Test;
 import repositories.ClientRepository;
 
@@ -68,8 +69,19 @@ public class ClientManagerTest {
     }
 
     @Test
-    public void updateClient() {
+    public void updateClientTest() throws WrongValueException, ClientNotFoundException {
+        ClientManager clientManager = new ClientManager(new ClientRepository());
+        Client client = clientManager.addClient(name, surname, country, city, street, number);
+        Client updatedClient = new Client("updated", "client", new Address(country, city, street, number));
+        clientManager.updateClient(client.getUuid().getUuid().toString(), updatedClient);
 
+        Client find = clientManager.findClientBySurname("client").get(0);
+        assertEquals("updated", find.getName());
+        assertEquals("client", find.getSurname());
+        assertEquals(country, find.getAddress().getCountry());
+        assertEquals(city, find.getAddress().getCity());
+        assertEquals(street, find.getAddress().getStreet());
+        assertEquals(number, find.getAddress().getNumber());
     }
 
 }

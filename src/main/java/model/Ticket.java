@@ -44,7 +44,6 @@ public abstract class Ticket extends AbstractEntity {
         this.movie.setSeatsTaken(this.movie.getSeatsTaken()+1);
     }
 
-
     public double getBasePrice() {
         return basePrice;
     }

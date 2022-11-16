@@ -1,16 +1,11 @@
 package managers;
 
 import exceptions.ClientNotFoundException;
-import exceptions.MovieNotFoundException;
 import exceptions.WrongValueException;
-import jakarta.persistence.Persistence;
-import model.Movie;
 import model.UniqueId;
 import model.sub.Address;
 import model.Client;
 import repositories.ClientRepository;
-import repositories.Repository;
-
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;

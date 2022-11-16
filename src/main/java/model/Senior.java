@@ -14,6 +14,7 @@ public class Senior extends Ticket {
 
     @BsonCreator
     public Senior(
+            @BsonProperty("uuid") UniqueId id,
             @BsonProperty("base_price") double basePrice,
             @BsonProperty("seat") int seat,
             @BsonProperty("client") Client client,
@@ -22,9 +23,15 @@ public class Senior extends Ticket {
             @BsonProperty("age") int age
         ) throws WrongValueException {
 
-        super(basePrice, seat, client, movie);
+        super(id, basePrice, seat, client, movie);
         setSeniorIDCard(seniorIDCard);
         setAge(age);
+    }
+
+    public Senior(double basePrice, int seat, Client client, Movie movie, long seniorIDCard, int age) {
+        super(new UniqueId(), basePrice, seat, client, movie);
+        this.seniorIDCard = seniorIDCard;
+        this.age = age;
     }
 
     public long getSeniorIDCard() {
