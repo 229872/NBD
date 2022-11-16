@@ -3,6 +3,7 @@ package repositories;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Updates;
 import model.Client;
+import model.Movie;
 import model.UniqueId;
 import org.bson.conversions.Bson;
 import org.hibernate.sql.Update;
@@ -23,14 +24,14 @@ public class ClientRepository extends AbstractRepository implements Repository<C
     @Override
     public void remove(Client item) {
         MongoCollection<Client> clientsCollection = getDb().getCollection("clients", Client.class);
-        Bson filter = eq("uuid", item.getUuid().getUuid());
+        Bson filter = eq("uuid", item.getUuid());
         clientsCollection.deleteOne(filter);
     }
 
     @Override
     public void update(Client item) {
         MongoCollection<Client> clientsCollection = getDb().getCollection("clients", Client.class);
-        Bson filter = eq("uuid", item.getUuid().getUuid());
+        Bson filter = eq("uuid", item.getUuid());
         Bson update = Updates.combine(
                 Updates.set("address", item.getAddress()),
                 Updates.set("client_name", item.getName()),
@@ -46,9 +47,16 @@ public class ClientRepository extends AbstractRepository implements Repository<C
         return clientsCollection.find(filter).first();
     }
 
+
     @Override
     public List<Client> findAll() {
         MongoCollection<Client> clientsCollection = getDb().getCollection("clients", Client.class);
         return clientsCollection.find().into(new ArrayList<>());
+    }
+
+    public List<Client> findBySurname(String surname) {
+        MongoCollection<Client> mongoCollection = getDb().getCollection("clients", Client.class);
+        Bson filter = eq("client_surname", surname);
+        return mongoCollection.find(filter).into(new ArrayList<>());
     }
 }

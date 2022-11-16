@@ -1,43 +1,32 @@
 package managers;
 
 import com.mongodb.client.MongoCollection;
+import exceptions.ClientNotFoundException;
 import exceptions.TicketNotFoundException;
 import exceptions.WrongTicketException;
 import exceptions.WrongValueException;
 import model.*;
 import model.sub.SchoolType;
-import org.bson.conversions.Bson;
-import repositories.AbstractRepository;
-import repositories.Repository;
+import repositories.TicketRepository;
+
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-import static com.mongodb.client.model.Filters.eq;
 
-public class TicketManager extends AbstractRepository {
-    private Repository<Ticket> repository;
+public class TicketManager {
+    private TicketRepository repository;
 
 
-    public TicketManager(Repository<Ticket> repository) {
+    public TicketManager(TicketRepository repository) {
 //        this();
         if(repository != null) {
             this.repository = repository;
         }
     }
 
-    public boolean isSeatTaken(int seat, Movie movie) {
-        MongoCollection<Ticket> ticketsCollection = getDb().getCollection("tickets", Ticket.class);
-        Bson query1 = eq("seat", seat);
-        // drugie query do dodania jakos
-        Bson query2 = eq("movie", movie);
-
-        return ticketsCollection.countDocuments(query1) == 1;
-
-    }
-
-
     public Ticket addNormalTicket(double basePrice, int seat, Client client,
                                   Movie movie) throws WrongTicketException, WrongValueException {
-        boolean isTaken = isSeatTaken(seat, movie);
+        boolean isTaken = repository.isSeatTaken(seat, movie);
         if(!isTaken) {
             Ticket ticket = new Normal(basePrice,seat,client,movie);
             repository.add(ticket);
@@ -51,7 +40,7 @@ public class TicketManager extends AbstractRepository {
     public Ticket addStudentTicket(double basePrice, int seat, Client client,
                                    Movie movie, long studentIDCard, SchoolType schoolType) throws WrongValueException, WrongTicketException {
 
-        boolean isTaken = isSeatTaken(seat, movie);
+        boolean isTaken = repository.isSeatTaken(seat, movie);
         if(!isTaken) {
             Ticket ticket = new Student(basePrice, seat, client, movie, studentIDCard, schoolType);
             repository.add(ticket);
@@ -64,7 +53,7 @@ public class TicketManager extends AbstractRepository {
 
     public Ticket addSeniorTicket(double basePrice, int seat, Client client,
                                   Movie movie, long seniorIDCard, int age) throws WrongTicketException, WrongValueException {
-        boolean isTaken = isSeatTaken(seat, movie);
+        boolean isTaken = repository.isSeatTaken(seat, movie);
         if(!isTaken) {
             Ticket ticket = new Senior(basePrice,seat,client,movie,seniorIDCard,age);
             repository.add(ticket);
@@ -83,10 +72,14 @@ public class TicketManager extends AbstractRepository {
         }
     }
 
+
+
     public void updateTicket(Ticket ticket) {
         Objects.requireNonNull(ticket);
         repository.update(ticket);
     }
+
+
 
     public void removeTicket(String uuid) throws TicketNotFoundException {
         Ticket found = repository.find(new UniqueId(UUID.fromString(uuid)));

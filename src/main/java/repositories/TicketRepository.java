@@ -2,6 +2,8 @@ package repositories;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
+import model.Movie;
 import model.Ticket;
 import model.UniqueId;
 import org.bson.conversions.Bson;
@@ -22,14 +24,14 @@ public class TicketRepository extends AbstractRepository implements Repository<T
     @Override
     public void remove(Ticket item) {
         MongoCollection<Ticket> ticketsCollection = getDb().getCollection("tickets", Ticket.class);
-        Bson filter = eq("uuid", item.getUuid().getUuid());
+        Bson filter = eq("uuid", item.getUuid());
         ticketsCollection.deleteOne(filter);
     }
 
     @Override
     public void update(Ticket item) {
         MongoCollection<Ticket> ticketsCollection = getDb().getCollection("tickets", Ticket.class);
-        Bson filter = eq("uuid", item.getUuid().getUuid());
+        Bson filter = eq("uuid", item.getUuid());
 //        Bson update = Updates.combine(
 //                Updates.set("address", item.getAddress()),
 //                Updates.set("client_name", item.getName()),
@@ -50,6 +52,19 @@ public class TicketRepository extends AbstractRepository implements Repository<T
         MongoCollection<Ticket> ticketsCollection = getDb().getCollection("tickets", Ticket.class);
         return ticketsCollection.find().into(new ArrayList<>());
     }
+
+
+    public boolean isSeatTaken(int seat, Movie movie) {
+        MongoCollection<Ticket> ticketsCollection = getDb().getCollection("tickets", Ticket.class);
+
+        Bson filter = Filters.and(eq("seat", seat), eq("movie", movie));
+
+        return ticketsCollection.countDocuments(filter) == 1;
+
+    }
+
+
+
 
 
 }

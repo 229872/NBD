@@ -25,7 +25,7 @@ public class Client extends AbstractEntity {
 //    private List<Ticket> listOfTickets = new ArrayList<>();
 
     @BsonCreator
-    public Client(@BsonProperty("id") UniqueId id,
+    public Client(@BsonProperty("uuid") UniqueId id,
                   @BsonProperty("client_name") String name,
                   @BsonProperty("client_surname") String surname,
                   @BsonProperty("address") Address address

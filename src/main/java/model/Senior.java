@@ -1,6 +1,7 @@
 package model;
 
 import exceptions.WrongValueException;
+import org.bson.codecs.pojo.annotations.BsonCreator;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 
 public class Senior extends Ticket {
@@ -11,8 +12,16 @@ public class Senior extends Ticket {
     @BsonProperty("age")
     private int age;
 
-    public Senior(double basePrice, int seat, Client client, Movie movie,
-                  long seniorIDCard, int age) throws WrongValueException {
+    @BsonCreator
+    public Senior(
+            @BsonProperty("base_price") double basePrice,
+            @BsonProperty("seat") int seat,
+            @BsonProperty("client") Client client,
+            @BsonProperty("movie") Movie movie,
+            @BsonProperty("senior_id") long seniorIDCard,
+            @BsonProperty("age") int age
+        ) throws WrongValueException {
+
         super(basePrice, seat, client, movie);
         setSeniorIDCard(seniorIDCard);
         setAge(age);

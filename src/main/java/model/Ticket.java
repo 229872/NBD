@@ -1,6 +1,7 @@
 package model;
 
 import exceptions.WrongValueException;
+import org.bson.codecs.pojo.annotations.BsonCreator;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 
 
@@ -18,9 +19,9 @@ public abstract class Ticket extends AbstractEntity {
     @BsonProperty("movie")
     private Movie movie;
 
-
+    @BsonCreator
     public Ticket(
-            @BsonProperty("id") UniqueId id,
+            @BsonProperty("uuid") UniqueId id,
             @BsonProperty("base_price") double basePrice,
             @BsonProperty("seat") int seat,
             @BsonProperty("client") Client client,
