@@ -2,8 +2,10 @@ package model;
 
 import exceptions.WrongValueException;
 import model.sub.SchoolType;
+import org.bson.codecs.pojo.annotations.BsonDiscriminator;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 
+@BsonDiscriminator(key = "type", value = "student")
 public class Student extends Ticket {
 
     @BsonProperty("student_id")

@@ -2,8 +2,10 @@ package model;
 
 import exceptions.WrongValueException;
 import org.bson.codecs.pojo.annotations.BsonCreator;
+import org.bson.codecs.pojo.annotations.BsonDiscriminator;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 
+@BsonDiscriminator(key = "type", value = "senior")
 public class Senior extends Ticket {
 
     @BsonProperty("senior_id")
@@ -11,22 +13,6 @@ public class Senior extends Ticket {
 
     @BsonProperty("age")
     private int age;
-
-    @BsonCreator
-    public Senior(
-            @BsonProperty("uuid") UniqueId id,
-            @BsonProperty("base_price") double basePrice,
-            @BsonProperty("seat") int seat,
-            @BsonProperty("client") Client client,
-            @BsonProperty("movie") Movie movie,
-            @BsonProperty("senior_id") long seniorIDCard,
-            @BsonProperty("age") int age
-        ) throws WrongValueException {
-
-        super(id, basePrice, seat, client, movie);
-        setSeniorIDCard(seniorIDCard);
-        setAge(age);
-    }
 
     public Senior(double basePrice, int seat, Client client, Movie movie, long seniorIDCard, int age) {
         super(new UniqueId(), basePrice, seat, client, movie);
