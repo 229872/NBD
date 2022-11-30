@@ -1,5 +1,7 @@
 package model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.bson.codecs.pojo.annotations.BsonCreator;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 
@@ -21,14 +23,15 @@ public class Movie extends AbstractEntity {
     private int seatsTaken;
 
     @BsonCreator
+    @JsonCreator
     public Movie(
-            @BsonProperty("uuid") UniqueId id,
-            @BsonProperty("movie_title") String title,
-            @BsonProperty("movie_genre") String genre,
-            @BsonProperty("age_restriction") int ageRestriction,
-            @BsonProperty("duration_in_minutes") int durationInMinutes,
-            @BsonProperty("seat_limit") int seatLimit,
-            @BsonProperty("seats_taken") int seatsTaken
+            @JsonProperty("uuid") @BsonProperty("uuid") UniqueId id,
+            @JsonProperty("movie_title") @BsonProperty("movie_title") String title,
+            @JsonProperty("movie_genre") @BsonProperty("movie_genre") String genre,
+            @JsonProperty("age_restriction") @BsonProperty("age_restriction") int ageRestriction,
+            @JsonProperty("duration_in_minutes") @BsonProperty("duration_in_minutes") int durationInMinutes,
+            @JsonProperty("seat_limit") @BsonProperty("seat_limit") int seatLimit,
+            @JsonProperty("seats_taken") @BsonProperty("seats_taken") int seatsTaken
     ) {
         super(id);
         this.title = title;
@@ -105,6 +108,7 @@ public class Movie extends AbstractEntity {
                 ", ageRestriction=" + ageRestriction +
                 ", durationInMinutes=" + durationInMinutes +
                 ", seatLimit=" + seatLimit +
+                ", uuid=" + getUuid() +
                 '}';
     }
 
@@ -120,7 +124,7 @@ public class Movie extends AbstractEntity {
         if (seatLimit != movie.seatLimit) return false;
         if (seatsTaken != movie.seatsTaken) return false;
         if (!Objects.equals(title, movie.title)) return false;
-        return genre == movie.genre;
+        return Objects.equals(genre, movie.genre);
     }
 
     @Override

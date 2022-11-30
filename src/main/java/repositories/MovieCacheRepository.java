@@ -22,6 +22,7 @@ public class MovieCacheRepository extends RepositoryDecorator<Movie> {
             movieCache.save(item);
         }
         redisRepository.add(item);
+
     }
 
     @Override
@@ -55,5 +56,18 @@ public class MovieCacheRepository extends RepositoryDecorator<Movie> {
     @Override
     public List<Movie> findAll() {
         return redisRepository.findAll();
+    }
+
+    //flush cashe
+    public void removeAll() {
+        movieCache.deleteAll();
+    }
+
+    public Movie getFromDataBase(UniqueId id) {
+        return redisRepository.find(id);
+    }
+
+    public void removeFromDataBase(Movie item) {
+        redisRepository.remove(item);
     }
 }
