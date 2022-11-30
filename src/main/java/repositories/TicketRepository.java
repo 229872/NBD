@@ -14,7 +14,7 @@ import java.util.List;
 import static com.mongodb.client.model.Filters.eq;
 
 
-public class TicketRepository extends AbstractRepository implements Repository<Ticket> {
+public class TicketRepository extends AbstractRepository<Ticket> {
     @Override
     public void add(Ticket item) {
         MongoCollection<Ticket> ticketsCollection = getDb().getCollection("tickets", Ticket.class);

@@ -10,7 +10,7 @@ import java.util.List;
 
 import static com.mongodb.client.model.Filters.eq;
 
-public class ClientRepository extends AbstractRepository implements Repository<Client> {
+public class ClientRepository extends AbstractRepository<Client>  {
     @Override
     public void add(Client item) {
         MongoCollection<Client> clientsCollection = getDb().getCollection("clients", Client.class);

@@ -10,7 +10,7 @@ import java.util.List;
 
 import static com.mongodb.client.model.Filters.eq;
 
-public class MovieRepository extends AbstractRepository implements Repository<Movie> {
+public class MovieRepository extends AbstractRepository<Movie> {
     @Override
     public void add(Movie item) {
         MongoCollection<Movie> moviesCollection = getDb().getCollection("movies", Movie.class);
