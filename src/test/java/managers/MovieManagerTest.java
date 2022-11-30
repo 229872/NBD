@@ -8,7 +8,7 @@ import repositories.MovieRepository;
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class MovieManagerTest extends AbstractRepository {
+public class MovieManagerTest {
     private final String title = "Star Wars I";
     private final String genre = "SCI_FI";
     private final int ageRestriction = 13;
