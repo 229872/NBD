@@ -3,6 +3,7 @@ package repositories;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import model.Movie;
 import model.UniqueId;
+import repositories.cachemodel.Cache;
 import repositories.cachemodel.MovieCache;
 
 import java.util.List;
@@ -61,6 +62,14 @@ public class MovieCacheRepository extends RepositoryDecorator<Movie> {
     //flush cashe
     public void removeAll() {
         movieCache.deleteAll();
+    }
+
+    public long size() {
+        return movieCache.size();
+    }
+
+    public void breakRedisConnection() {
+        Cache.setHealthy(false);
     }
 
     public Movie getFromDataBase(UniqueId id) {

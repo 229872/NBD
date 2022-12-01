@@ -49,4 +49,8 @@ public class MovieCache extends Cache {
             jedis.flushAll();
         }
     }
+     public long size() {
+        return pool.dbSize();
+     }
+
 }

@@ -53,6 +53,10 @@ public abstract class Cache {
         return healthy;
     }
 
+    public static void setHealthy(boolean healthy) {
+        Cache.healthy = healthy;
+    }
+
     public static boolean checkHealthy() {
         HostAndPort hostAndPort = getHostAndPort();
         JedisClientConfig clientConfig = DefaultJedisClientConfig.builder().build();
