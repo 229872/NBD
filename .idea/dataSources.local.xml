@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="dataSourceStorageLocal" created-in="IU-222.4345.14">
-    <data-source name="admin@localhost" uuid="ce579948-bad4-4bb2-8a46-c934d38adf9a">
-      <database-info product="Mongo DB" version="6.0.2" jdbc-version="4.2" driver-name="MongoDB JDBC Driver" driver-version="1.17" dbms="MONGO" exact-version="6.0.2" exact-driver-version="1.17" />
-      <case-sensitivity plain-identifiers="mixed" quoted-identifiers="mixed" />
+  <component name="dataSourceStorageLocal" created-in="IU-223.7571.182">
+    <data-source name="@localhost" uuid="c2c8fdbf-e8fe-44ae-82c5-70f88cce41d8">
+      <database-info product="Cassandra" version="4.0.7" jdbc-version="4.2" driver-name="Cassandra JDBC Driver" driver-version="1.4" dbms="CASSANDRA" exact-version="4.0.7" exact-driver-version="1.4">
+        <identifier-quote-string>&quot;</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact" />
       <secret-storage>master_key</secret-storage>
-      <user-name>nbd</user-name>
+      <user-name>cassandra</user-name>
       <schema-mapping>
         <introspection-scope>
-          <node kind="schema" qname="admin" />
+          <node kind="schema">
+            <name qname="cinema" />
+            <name qname="system_schema" />
+          </node>
         </introspection-scope>
       </schema-mapping>
     </data-source>

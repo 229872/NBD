@@ -1,8 +1,6 @@
 package model.sub;
 
 import exceptions.WrongValueException;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
 
 
 public class Address {

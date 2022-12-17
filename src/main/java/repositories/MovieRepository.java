@@ -1,60 +1,71 @@
 package repositories;
 
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.model.Updates;
+import com.datastax.oss.driver.api.core.CqlIdentifier;
+import com.datastax.oss.driver.api.core.type.DataTypes;
+import com.datastax.oss.driver.api.querybuilder.SchemaBuilder;
+import dao.MovieDao;
+import dao.mappers.MovieMapper;
+import dao.mappers.MovieMapperBuilder;
 import model.Movie;
-import model.UniqueId;
-import org.bson.conversions.Bson;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
-import static com.mongodb.client.model.Filters.eq;
 
 public class MovieRepository extends AbstractRepository<Movie> {
+
+    public MovieRepository() {
+        createTable();
+    }
+
+    @Override
+    public void createTable() {
+        getSession().execute(SchemaBuilder.createTable(CqlIdentifier.fromCql("movies"))
+                .ifNotExists()
+                .withPartitionKey(CqlIdentifier.fromCql("id"), DataTypes.UUID)
+                .withColumn(CqlIdentifier.fromCql("title"), DataTypes.TEXT)
+                .withColumn(CqlIdentifier.fromCql("genre"), DataTypes.TEXT)
+                .withColumn(CqlIdentifier.fromCql("age_restriction"), DataTypes.INT)
+                .withColumn(CqlIdentifier.fromCql("duration_in_minutes"), DataTypes.INT)
+                .withColumn(CqlIdentifier.fromCql("seat_limit"), DataTypes.INT)
+                .build().setKeyspace("cinema"));
+    }
+
+
     @Override
     public void add(Movie item) {
-        MongoCollection<Movie> moviesCollection = getDb().getCollection("movies", Movie.class);
-        moviesCollection.insertOne(item);
+        MovieMapper movieMapper = new MovieMapperBuilder(getSession()).build();
+        MovieDao movieDao = movieMapper.movieDao();
+        movieDao.create(item);
     }
 
     @Override
     public void remove(Movie item) {
-        MongoCollection<Movie> moviesCollection = getDb().getCollection("movies", Movie.class);
-        Bson filter = eq("uuid", item.getUuid());
-        moviesCollection.findOneAndDelete(filter);
+        MovieMapper movieMapper = new MovieMapperBuilder(getSession()).build();
+        MovieDao movieDao = movieMapper.movieDao();
+        movieDao.remove(item);
     }
 
     @Override
-    public void update(UniqueId uuid, Movie item) {
-        MongoCollection<Movie> moviesCollection = getDb().getCollection("movies", Movie.class);
-        Bson filter = eq("uuid", uuid);
-        Bson update = Updates.combine(
-                Updates.set("age_restriction", item.getAgeRestriction()),
-                Updates.set("duration_in_minutes", item.getDurationInMinutes()),
-                Updates.set("movie_genre", item.getGenre()),
-                Updates.set("movie_title", item.getTitle()),
-                Updates.set("seat_limit", item.getSeatLimit()),
-                Updates.set("seats_taken", item.getSeatsTaken())
-        );
-        moviesCollection.updateOne(filter, update);
+    public void update(UUID id, Movie item) {
+        MovieMapper movieMapper = new MovieMapperBuilder(getSession()).build();
+        MovieDao movieDao = movieMapper.movieDao();
+        movieDao.update(item, id);
     }
 
     @Override
-    public Movie find(UniqueId uuid) {
-        MongoCollection<Movie> moviesCollection = getDb().getCollection("movies", Movie.class);
-        Bson filter = eq("uuid", uuid);
-        return moviesCollection.find(filter).first();
-    }
+    public Movie find(UUID id) {
+        MovieMapper movieMapper = new MovieMapperBuilder(getSession()).build();
+        MovieDao movieDao = movieMapper.movieDao();
 
-    public List<Movie> findByName(String title) {
-        MongoCollection<Movie> mongoCollection = getDb().getCollection("movies", Movie.class);
-        Bson filter = eq("movie_title", title);
-        return mongoCollection.find(filter).into(new ArrayList<>());
+        return movieDao.find(id);
     }
 
     @Override
     public List<Movie> findAll() {
-        MongoCollection<Movie> moviesCollection = getDb().getCollection("movies", Movie.class);
-        return moviesCollection.find().into(new ArrayList<>());
+        MovieMapper movieMapper = new MovieMapperBuilder(getSession()).build();
+        MovieDao movieDao = movieMapper.movieDao();
+
+        return movieDao.findAll();
     }
+
 }

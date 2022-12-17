@@ -1,21 +1,23 @@
 package model;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import org.bson.codecs.pojo.annotations.BsonProperty;
+import com.datastax.oss.driver.api.mapper.annotations.PartitionKey;
+import java.io.Serializable;
+import java.util.UUID;
 
-public abstract class AbstractEntity implements AutoCloseable {
+public abstract class AbstractEntity implements Serializable {
 
-    @BsonProperty("uuid")
-    @JsonProperty
-    private final UniqueId id;
+    @PartitionKey
+    private UUID id;
 
-    @JsonCreator
-    public AbstractEntity(@JsonProperty("uuid") UniqueId id) {
+    public AbstractEntity() {
+        this.id = UUID.randomUUID();
+    }
+
+    public AbstractEntity(UUID id) {
         this.id = id;
     }
 
-    public UniqueId getUuid() {
+    public UUID getId() {
         return id;
     }
 }

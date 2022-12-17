@@ -2,7 +2,6 @@ package managers;
 
 import exceptions.MovieNotFoundException;
 import model.Movie;
-import model.UniqueId;
 import repositories.MovieRepository;
 
 import java.util.List;
@@ -27,37 +26,30 @@ public class MovieManager {
     }
 
     public void removeMovie(String uuid) throws MovieNotFoundException {
-        Movie movieToRemove = repository.find(new UniqueId(UUID.fromString(uuid)));
-        if(movieToRemove != null) {
+        try {
+            Movie movieToRemove = repository.find(UUID.fromString(uuid));
             repository.remove(movieToRemove);
-        } else {
+        } catch (NullPointerException e) {
             throw new MovieNotFoundException();
         }
     }
 
     public Movie findMovie(String uuid) throws MovieNotFoundException {
-        Movie found = repository.find(new UniqueId(UUID.fromString(uuid)));
-        if(found != null) {
-            return found;
-        } else {
+        try {
+            return repository.find(UUID.fromString(uuid));
+        } catch (NullPointerException e) {
             throw new MovieNotFoundException();
         }
     }
 
-    public List<Movie> findMovieByTitle(String title) throws MovieNotFoundException {
-        List<Movie> found = repository.findByName(title);
-        if(!found.isEmpty()) {
-            return found;
-        } else {
-            throw new MovieNotFoundException();
-        }
+    public List<Movie> findAllMovies() {
+        return repository.findAll();
     }
 
-    public void updateMovie(String uuid, Movie movie ) {
+    public void updateMovie(String uuid, Movie movie) {
         Objects.requireNonNull(movie);
-        repository.update(new UniqueId(UUID.fromString(uuid)) ,movie);
+        repository.update(UUID.fromString(uuid), movie);
     }
-
 
 
 }
