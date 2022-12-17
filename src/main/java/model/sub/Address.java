@@ -2,6 +2,8 @@ package model.sub;
 
 import exceptions.WrongValueException;
 
+import java.util.Objects;
+
 
 public class Address {
 
@@ -18,10 +20,6 @@ public class Address {
         this.city = city;
         this.street = street;
         this.number = number;
-    }
-
-    protected Address() {
-
     }
 
     public String getCountry() {
@@ -74,5 +72,18 @@ public class Address {
             throw new WrongValueException("Number of address cannot be negative");
         }
 
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Address address = (Address) o;
+        return number == address.number && Objects.equals(country, address.country) && Objects.equals(city, address.city) && Objects.equals(street, address.street);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(country, city, street, number);
     }
 }

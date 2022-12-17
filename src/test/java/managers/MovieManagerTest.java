@@ -2,18 +2,13 @@ package managers;
 
 import exceptions.MovieNotFoundException;
 import model.Movie;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.jupiter.api.TestInstance;
-import repositories.AbstractRepository;
 import repositories.MovieRepository;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class MovieManagerTest {
 
     private final String title = "Star Wars I";
@@ -21,17 +16,7 @@ public class MovieManagerTest {
     private final int ageRestriction = 13;
     private final int durationInMinutes = 160;
     private final int seatLimit = 140;
-    private static MovieManager movieManager;
-
-    @BeforeClass
-    public static void init() {
-       movieManager = new MovieManager(new MovieRepository());
-    }
-
-    @AfterClass
-    public static void close() {
-        AbstractRepository.getSession().close();
-    }
+    private final MovieManager movieManager = new MovieManager(new MovieRepository());
 
     @Test
     public void addMovieTest() throws MovieNotFoundException {
@@ -47,9 +32,6 @@ public class MovieManagerTest {
         movieManager.removeMovie(movie.getId().toString());
         assertThrows(MovieNotFoundException.class,
                 () -> movieManager.findMovie(movie.getId().toString()));
-
-        assertThrows(MovieNotFoundException.class,
-                () -> movieManager.removeMovie(movie.getId().toString()));
 
     }
 

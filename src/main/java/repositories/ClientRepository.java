@@ -1,58 +1,70 @@
-//package repositories;
-//
-//import com.mongodb.client.MongoCollection;
-//import com.mongodb.client.model.Updates;
-//import model.Client;
-//import model.UniqueId;
-//import org.bson.conversions.Bson;
-//import java.util.ArrayList;
-//import java.util.List;
-//
-//import static com.mongodb.client.model.Filters.eq;
-//
-//public class ClientRepository extends AbstractRepository<Client>  {
-//    @Override
-//    public void add(Client item) {
-//        MongoCollection<Client> clientsCollection = getDb().getCollection("clients", Client.class);
-//        clientsCollection.insertOne(item);
-//    }
-//
-//    @Override
-//    public void remove(Client item) {
-//        MongoCollection<Client> clientsCollection = getDb().getCollection("clients", Client.class);
-//        Bson filter = eq("uuid", item.getUuid());
-//        clientsCollection.deleteOne(filter);
-//    }
-//
-//    @Override
-//    public void update(UniqueId uuid, Client item) {
-//        MongoCollection<Client> clientsCollection = getDb().getCollection("clients", Client.class);
-//        Bson filter = eq("uuid", uuid);
-//        Bson update = Updates.combine(
-//                Updates.set("address", item.getAddress()),
-//                Updates.set("client_name", item.getName()),
-//                Updates.set("client_surname", item.getSurname())
-//        );
-//        clientsCollection.updateOne(filter, update);
-//    }
-//
-//    @Override
-//    public Client find(UniqueId id) {
-//        MongoCollection<Client> clientsCollection = getDb().getCollection("clients", Client.class);
-//        Bson filter = eq("uuid", id.getUuid());
-//        return clientsCollection.find(filter).first();
-//    }
-//
-//
-//    @Override
-//    public List<Client> findAll() {
-//        MongoCollection<Client> clientsCollection = getDb().getCollection("clients", Client.class);
-//        return clientsCollection.find().into(new ArrayList<>());
-//    }
-//
-//    public List<Client> findBySurname(String surname) {
-//        MongoCollection<Client> mongoCollection = getDb().getCollection("clients", Client.class);
-//        Bson filter = eq("client_surname", surname);
-//        return mongoCollection.find(filter).into(new ArrayList<>());
-//    }
-//}
+package repositories;
+
+import com.datastax.oss.driver.api.core.CqlIdentifier;
+import com.datastax.oss.driver.api.core.type.DataTypes;
+import com.datastax.oss.driver.api.querybuilder.SchemaBuilder;
+import dao.ClientDao;
+import dao.mappers.ClientMapper;
+import dao.mappers.ClientMapperBuilder;
+import model.Client;
+
+import java.util.List;
+import java.util.UUID;
+
+public class ClientRepository extends AbstractRepository<Client>  {
+
+    public ClientRepository() {
+        createTable();
+    }
+
+    @Override
+    public void createTable() {
+        getSession().execute(SchemaBuilder.createTable(CqlIdentifier.fromCql("clients"))
+                .ifNotExists()
+                .withPartitionKey(CqlIdentifier.fromCql("id"), DataTypes.UUID)
+                .withColumn(CqlIdentifier.fromCql("name"), DataTypes.TEXT)
+                .withColumn(CqlIdentifier.fromCql("surname"), DataTypes.TEXT)
+                .withColumn(CqlIdentifier.fromCql("city"), DataTypes.TEXT)
+                .withColumn(CqlIdentifier.fromCql("country"), DataTypes.TEXT)
+                .withColumn(CqlIdentifier.fromCql("street"), DataTypes.TEXT)
+                .withColumn(CqlIdentifier.fromCql("number"), DataTypes.INT)
+                .build().setKeyspace("cinema"));
+    }
+
+    @Override
+    public void add(Client item) {
+        ClientMapper clientMapper = new ClientMapperBuilder(getSession()).build();
+        ClientDao clientDao = clientMapper.clientDao();
+        clientDao.create(item);
+    }
+
+    @Override
+    public void remove(Client item) {
+        ClientMapper clientMapper = new ClientMapperBuilder(getSession()).build();
+        ClientDao clientDao = clientMapper.clientDao();
+        clientDao.remove(item);
+    }
+
+    @Override
+    public void update(UUID id, Client item) {
+        ClientMapper clientMapper = new ClientMapperBuilder(getSession()).build();
+        ClientDao clientDao = clientMapper.clientDao();
+        clientDao.update(item, id);
+    }
+
+    @Override
+    public Client find(UUID id) {
+        ClientMapper clientMapper = new ClientMapperBuilder(getSession()).build();
+        ClientDao clientDao = clientMapper.clientDao();
+
+        return clientDao.find(id);
+    }
+
+    @Override
+    public List<Client> findAll() {
+        ClientMapper clientMapper = new ClientMapperBuilder(getSession()).build();
+        ClientDao clientDao = clientMapper.clientDao();
+
+        return clientDao.findAll();
+    }
+}
