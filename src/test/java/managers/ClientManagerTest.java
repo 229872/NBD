@@ -1,7 +1,6 @@
 package managers;
 
 import exceptions.ClientNotFoundException;
-import exceptions.WrongValueException;
 import model.Client;
 import model.sub.Address;
 import org.junit.Test;
@@ -57,7 +56,7 @@ public class ClientManagerTest {
     @Test
     public void updateClientTest() throws ClientNotFoundException {
         Client added = clientManager.addClient(name, surname, country, city, street, number);
-        Client updated = new Client("updated", "client", new Address(country, city, street, number));
+        Client updated = new Client("updated", "client", new Address("updatedCountry", "updatedCity", street, number));
         clientManager.updateClient(added.getId().toString(), updated);
 
         Client found = clientManager.findClient(added.getId().toString());

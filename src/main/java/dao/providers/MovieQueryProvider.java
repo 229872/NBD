@@ -4,7 +4,6 @@ import com.datastax.oss.driver.api.core.CqlIdentifier;
 import com.datastax.oss.driver.api.core.CqlSession;
 import com.datastax.oss.driver.api.core.cql.Row;
 import com.datastax.oss.driver.api.mapper.MapperContext;
-import com.datastax.oss.driver.api.mapper.entity.EntityHelper;
 import com.datastax.oss.driver.api.querybuilder.QueryBuilder;
 import com.datastax.oss.driver.api.querybuilder.relation.Relation;
 import com.datastax.oss.driver.api.querybuilder.select.Select;
@@ -20,11 +19,8 @@ import static com.datastax.oss.driver.api.querybuilder.QueryBuilder.literal;
 public class MovieQueryProvider {
     private final CqlSession session;
 
-    private EntityHelper<Movie> movieEntityHelper;
-
-    public MovieQueryProvider(MapperContext ctx, EntityHelper<Movie> movieEntityHelper) {
+    public MovieQueryProvider(MapperContext ctx) {
         this.session = ctx.getSession();
-        this.movieEntityHelper = movieEntityHelper;
     }
 
     public Movie find(UUID id) {

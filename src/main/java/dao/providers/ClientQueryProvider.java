@@ -4,7 +4,6 @@ import com.datastax.oss.driver.api.core.CqlIdentifier;
 import com.datastax.oss.driver.api.core.CqlSession;
 import com.datastax.oss.driver.api.core.cql.Row;
 import com.datastax.oss.driver.api.mapper.MapperContext;
-import com.datastax.oss.driver.api.mapper.entity.EntityHelper;
 import com.datastax.oss.driver.api.querybuilder.QueryBuilder;
 import com.datastax.oss.driver.api.querybuilder.relation.Relation;
 import com.datastax.oss.driver.api.querybuilder.select.Select;
@@ -21,11 +20,8 @@ import static com.datastax.oss.driver.api.querybuilder.QueryBuilder.literal;
 public class ClientQueryProvider {
     private final CqlSession session;
 
-    private EntityHelper<Client> clientEntityHelper;
-
-    public ClientQueryProvider(MapperContext ctx, EntityHelper<Client> clientEntityHelper) {
+    public ClientQueryProvider(MapperContext ctx) {
         this.session = ctx.getSession();
-        this.clientEntityHelper = clientEntityHelper;
     }
 
     public void create(Client client) {
@@ -39,6 +35,18 @@ public class ClientQueryProvider {
                 .value("street", literal(client.getAddress().getStreet()))
                 .value("number", literal(client.getAddress().getNumber()))
                 .build());
+    }
+
+    public void update(Client client, UUID id) {
+        session.execute(QueryBuilder.update("clients")
+                .setColumn("name", literal(client.getName()))
+                .setColumn("surname", literal(client.getSurname()))
+                .setColumn("country", literal(client.getAddress().getCountry()))
+                .setColumn("city", literal(client.getAddress().getCity()))
+                .setColumn("street", literal(client.getAddress().getStreet()))
+                .setColumn("number", literal(client.getAddress().getNumber()))
+                        .where(Relation.column("id").isEqualTo(literal(id)))
+                        .build());
     }
 
 

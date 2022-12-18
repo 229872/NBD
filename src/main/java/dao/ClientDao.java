@@ -11,21 +11,21 @@ import java.util.UUID;
 public interface ClientDao {
 
     @StatementAttributes(consistencyLevel = "QUORUM", pageSize = 100)
-    @QueryProvider(providerClass = ClientQueryProvider.class, entityHelpers = {Client.class})
+    @QueryProvider(providerClass = ClientQueryProvider.class)
     void create(Client client);
 
     @Delete
     void remove(Client client);
 
-    @Update
+    @QueryProvider(providerClass = ClientQueryProvider.class)
     void update(Client client, UUID id);
 
     @StatementAttributes(consistencyLevel = "QUORUM")
-    @QueryProvider(providerClass = ClientQueryProvider.class, entityHelpers = {Client.class})
+    @QueryProvider(providerClass = ClientQueryProvider.class)
     Client find(UUID id);
 
     @StatementAttributes(consistencyLevel = "QUORUM")
-    @QueryProvider(providerClass = ClientQueryProvider.class, entityHelpers = {Client.class})
+    @QueryProvider(providerClass = ClientQueryProvider.class)
     List<Client> findAll();
 
 }

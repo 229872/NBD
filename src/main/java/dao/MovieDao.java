@@ -21,11 +21,11 @@ public interface MovieDao {
     void update(Movie movie, UUID id);
 
     @StatementAttributes(consistencyLevel = "QUORUM")
-    @QueryProvider(providerClass = MovieQueryProvider.class, entityHelpers = {Movie.class})
+    @QueryProvider(providerClass = MovieQueryProvider.class)
     Movie find(UUID id);
 
     @StatementAttributes(consistencyLevel = "QUORUM")
-    @QueryProvider(providerClass = MovieQueryProvider.class, entityHelpers = {Movie.class})
+    @QueryProvider(providerClass = MovieQueryProvider.class)
     List<Movie> findAll();
 
 }
