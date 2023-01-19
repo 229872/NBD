@@ -5,7 +5,7 @@ import org.bson.codecs.pojo.annotations.BsonCreator;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 
 
-public abstract class Ticket extends AbstractEntity {
+public class Ticket extends AbstractEntity {
 
     @BsonProperty("base_price")
     private double basePrice;
@@ -77,7 +77,9 @@ public abstract class Ticket extends AbstractEntity {
         }
     }
 
-    public abstract double getTicketPrice();
+    public double getTicketPrice() {
+        return this.basePrice;
+    }
 
     @Override
     public String toString() {
@@ -88,5 +90,10 @@ public abstract class Ticket extends AbstractEntity {
                 ", client=" + client +
                 ", movie=" + movie +
                 '}';
+    }
+
+    @Override
+    public void close() throws Exception {
+
     }
 }

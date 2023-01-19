@@ -10,4 +10,12 @@ public class TicketConsumerTest {
         ticketConsumer.consume();
     }
 
+    @Test
+    void ticketDoubleConsumerTest() {
+        TicketConsumer ticketConsumer = new TicketConsumer();
+        ticketConsumer.consume();
+        TicketConsumer ticketConsumer2 = new TicketConsumer();
+        ticketConsumer2.consume();
+    }
+
 }
